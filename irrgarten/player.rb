@@ -9,7 +9,7 @@ class Player
     @number = number
     @name = "Player # #{number}"
     @intelligence = intelligence
-    @strength = strength
+    @strength = strength #prueba github
     @health = @@INITIAL_HEALTH
     @weapons = []
     @shields = []
