@@ -1,4 +1,5 @@
-# frozen_string_literal: true
+#encoding : UTF−8
+#frozen_string_literal: true
 module Directions
   LEFT= :LEFT
   RIGHT= :RIGHT

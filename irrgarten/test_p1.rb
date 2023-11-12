@@ -1,4 +1,5 @@
-# frozen"_string_literal: true
+#encoding : UTF−8
+#frozen"_string_literal: true
 require_relative "directions"
 require_relative 'dice'
 require_relative 'game_character'

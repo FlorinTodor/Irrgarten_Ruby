@@ -1,3 +1,4 @@
+#encoding : UTF−8
 class Player
   @@MAX_WEAPONS = 5
   @@MAX_SHIELDS = 3
@@ -11,8 +12,8 @@ class Player
     @intelligence = intelligence
     @strength = strength #prueba github
     @health = @@INITIAL_HEALTH
-    @weapons = []
-    @shields = []
+    @weapons = Array.new
+    @shields = Array.new
     @row = 0
     @col = 0
     @consecutive_hits = 0

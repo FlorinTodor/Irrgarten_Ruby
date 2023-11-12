@@ -1,4 +1,5 @@
-# frozen_string_literal: true
+#encoding : UTF−8
+#frozen_string_literal: true
 
 class Monster
   @@INITIAL_HEALTH = 5

@@ -1,4 +1,5 @@
-# frozen_string_literal: true
+#encoding : UTF−8
+#frozen_string_literal: true
 
 class Dice
   #DECLARACIÓN DE LOS ATRIBUTOS DE CLASE DE DICE
