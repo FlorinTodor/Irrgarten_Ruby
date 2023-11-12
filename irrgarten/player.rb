@@ -1,22 +1,24 @@
-#encoding : UTF−8
 class Player
   @@MAX_WEAPONS = 5
   @@MAX_SHIELDS = 3
   @@INITIAL_HEALTH = 10
   @@HITS2LOSE = 3
 
-
   def initialize(number, intelligence, strength)
     @number = number
     @name = "Player # #{number}"
     @intelligence = intelligence
-    @strength = strength #prueba github
+    @strength = strength
     @health = @@INITIAL_HEALTH
-    @weapons = Array.new
-    @shields = Array.new
+    @weapons = []
+    @shields = []
     @row = 0
     @col = 0
     @consecutive_hits = 0
+  end
+
+  def get_number()
+    return @number
   end
 
   def resurrect
