@@ -1,12 +1,15 @@
-#encoding : UTF−8
-#frozen"_string_literal: true
-require_relative "directions"
-require_relative 'dice'
-require_relative 'game_character'
-require_relative 'game_state'
-require_relative 'orientation'
-require_relative 'shield'
-require_relative 'weapon'
+#encoding:utf-8
+# tests/test_p1.rb
+require_relative '../directions'
+require_relative '../game'
+require_relative '../game_character'
+require_relative '../game_state'
+require_relative '../monster'
+require_relative '../orientation'
+require_relative '../player'
+require_relative '../shield'
+require_relative '../weapon'
+
 
 class Test_p1
 

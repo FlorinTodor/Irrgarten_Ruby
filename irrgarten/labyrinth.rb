@@ -1,12 +1,10 @@
+#encoding:utf-8
 # frozen_string_literal: true
 
 class Labyrinth
 
   #Atributos privados
-  @monsters = Array.new(@nrows) { Array.new(@ncols) }
-  #En este caso, se pone ' ' porque tiene un miembro char llamado content
-  @labyrinth = Array.new(@nrows) { Array.new(@ncols, ' ')}
-  @players = Array.new(@nrows) { Array.new(@ncols)}
+
   @@block_char = 'X'
   @@empty_char = '-'
   @@monster_char = 'M'
@@ -14,10 +12,7 @@ class Labyrinth
   @@exit_char = 'E'
   @@row = 0
   @@col = 1
-  @nrows = 0
-  @ncols = 0
-  @exitrow = 0
-  @exitcol = 0
+
 
   #Metodos
   #Constructor
@@ -28,13 +23,13 @@ class Labyrinth
     @exitcol = exitcol
 
     #En este caso, se pone ' ' porque tiene un miembro char llamado content
-    @labyrinth = Array.new(nrows) { Array.new(ncols, ' ') }
-    @monsters = Array.new(nrows) { Array.new(ncols) }
-    @players = Array.new(nrows) { Array.new(ncols) }
+    @labyrinth = Array.new(nrows){Array.new(ncols){@@empty_char}}
+    @monsters = Array.new(nrows){Array.new(ncols){nil}}
+    @players = Array.new(nrows) {Array.new(ncols){nil}}
 
-    for i in (0..nrows) #Parentesis para evitar problemas
-      for j in (0..ncols) #Parentesis para evitar problemas
-        @labyrinth[i][j] = '-'
+    for i in (0...nrows) #Parentesis para evitar problemas
+      for j in (0...ncols) #Parentesis para evitar problemas
+        @labyrinth[i][j] = @@empty_char
         @monsters[i][j] = nil #nil es lo mismo que "null" en Java
         @players[i][j] = nil #nil es lo mismo que "null" en Java
       end
@@ -207,18 +202,15 @@ class Labyrinth
 
     case direction
     when UP
-      new_row--
-      break
+      new_row -= 1
     when DOWN
-      new_row++
-      break
+      new_row += 1
     when LEFT
-      new_col--
-      break
+      new_col -= 1
     when RIGHT
-      new_col++
-      break
+      new_col += 1
     end
+
 
     #Creamos un array de int que contenga el valor de nueva columna y el valor de nueva fila
     new_position = Array.new(new_row,new_col)
@@ -255,3 +247,4 @@ class Labyrinth
 
 
 end
+

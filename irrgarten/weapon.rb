@@ -1,9 +1,6 @@
+#encoding:utf-8
 # frozen_string_literal: true
-#encoding : UTF−8
 class Weapon
-  @power = 0.0
-  @uses = 0
-
   # Constructor de la clase
   # param p = power
   # param u = uses

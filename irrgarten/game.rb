@@ -1,30 +1,28 @@
+#encoding:utf-8
 class Game
 
   #Atributos privados
-  @monsters = Array.new(@nrows) { Array.new(@ncols) }
-  @players = Array.new(@nrows) { Array.new(@ncols)}
-
   @@max_rounds = 10
 
-  def initialize
-    @current_player = nil
-    @labyrinth = Labyrinth.new(10,20,5,5)
+  def initialize(nplayers)
+    @monsters = Array.new
+    @players = Array.new
     @current_rounds = 0
-    @current_player_index = 0
-    @log = ""
-  end
 
-  def game(nplayers)
     for i in(0..nplayers)
-      @players = Player.new(i.to_s, Dice.random_intelligence, Dice.random_strength)
+      @players.push(Player.new(i.to_s, Dice.random_intelligence, Dice.random_strength))
     end
-
     @current_player_index = Dice.random_pos(nplayers)
     @current_player = @players[@current_player_index]
     @monsters = nil
     @log = ""
     @labyrinth = Labyrinth.new(10,20,5,5)
     configure_labyrinth()
+    @labyrinth.spread_players(nplayers)
+  end
+
+  def game(nplayers)
+
 
   end
 
@@ -139,3 +137,4 @@ class Game
 
 
 end
+

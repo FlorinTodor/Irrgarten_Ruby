@@ -1,4 +1,5 @@
-#encoding : UTF−8
+#encoding:utf-8
+
 class Player
   @@MAX_WEAPONS = 5
   @@MAX_SHIELDS = 3

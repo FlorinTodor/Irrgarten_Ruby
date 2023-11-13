@@ -9,7 +9,17 @@
 
 # ACUÉRDATE de dejar  spread_players  con su implementación original cuando termines las pruebas
 
-require_relative 'Game'
+require_relative 'directions'
+require_relative 'dice'
+require_relative 'game'
+require_relative 'game_state'
+require_relative 'game_character'
+require_relative 'labyrinth'
+require_relative 'monster'
+require_relative 'orientation'
+require_relative 'player'
+require_relative 'shield'
+require_relative 'weapon'
 
 module Irrgarten
   class PruebaMuro
