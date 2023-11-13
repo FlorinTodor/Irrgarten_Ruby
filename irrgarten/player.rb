@@ -12,8 +12,8 @@ class Player
     @intelligence = intelligence
     @strength = strength #prueba github
     @health = @@INITIAL_HEALTH
-    @weapons = Array.new
-    @shields = Array.new
+    @weapons = Array.new(@@MAX_WEAPONS)
+    @shields = Array.new(@@MAX_SHIELDS)
     @row = 0
     @col = 0
     @consecutive_hits = 0
