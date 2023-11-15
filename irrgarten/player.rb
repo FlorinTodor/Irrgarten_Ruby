@@ -5,8 +5,9 @@ require_relative 'directions'
 require_relative 'dice'
 require_relative 'shield'
 require_relative 'weapon'
-
+module Irrgarten
 class Player
+  attr_reader :number
   @@MAX_WEAPONS = 5
   @@MAX_SHIELDS = 3
   @@INITIAL_HEALTH = 10
@@ -210,4 +211,5 @@ class Player
   def inc_consecutive_hits
     @consecutive_hits += 1
   end
+end
 end

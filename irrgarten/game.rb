@@ -7,7 +7,7 @@ require_relative 'orientation'
 require_relative 'directions'
 require_relative 'game_character'
 require_relative 'game_state'
-
+module Irrgarten
 class Game
 
   #Atributos privados
@@ -28,8 +28,8 @@ class Game
     @monsters = Array.new(5)
     @log = ""
     @labyrinth = Labyrinth.new(9,15,7,15)
-    configure_labyrinth()
-    @labyrinth.spread_players(nplayers)
+    configure_labyrinth
+    @labyrinth.spread_players(@players)
   end
 
 
@@ -233,4 +233,4 @@ class Game
 
 
 end
-
+end

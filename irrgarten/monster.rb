@@ -1,7 +1,7 @@
 #encoding:utf-8
 require_relative 'dice'
 
-
+module Irrgarten
 class Monster
   @@INITIAL_HEALTH = 5
 
@@ -48,5 +48,5 @@ class Monster
     @health -= 1
   end
 end
-
+end
 

@@ -1,6 +1,7 @@
 #encoding:utf-8
 # frozen_string_literal: true
 require_relative 'dice'
+module Irrgarten
 class Shield
   @protection = 0.0
   @uses = 0
@@ -28,4 +29,5 @@ class Shield
   def discard
     Dice.discard_element(@uses)
   end
+end
 end

@@ -5,7 +5,7 @@ require_relative 'player'
 require_relative 'orientation'
 require_relative 'dice'
 require_relative 'directions'
-
+module Irrgarten
 class Labyrinth
 
   #Atributos privados
@@ -25,6 +25,7 @@ class Labyrinth
     @ncols = ncols
     @exitrow = exitrow
     @exitcol = exitcol
+
 
     #En este caso, se pone ' ' porque tiene un miembro char llamado content
     @labyrinth = Array.new(nrows){Array.new(ncols){@@empty_char}}
@@ -95,7 +96,8 @@ class Labyrinth
         if i == @exitrow && j == @exitcol
           laberinto += @@exit_char + " "
         else
-          laberinto += @labyrinth[i][j] + " "
+          laberinto += @labyrinth[i][j]
+          laberinto += ' '
         end
       end
       laberinto += "\n"
@@ -308,8 +310,8 @@ class Labyrinth
         @labyrinth[row][col] = @@combat_char
         output = @monsters[row][col]
       else
-        number = player.get_number
-        @labyrinth[row][col] = number
+
+        @labyrinth[row][col] = player.get_number
       end
 
       @players[row][col] = player
@@ -318,4 +320,5 @@ class Labyrinth
 
     return output
   end
+end
 end
