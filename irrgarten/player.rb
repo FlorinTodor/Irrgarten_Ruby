@@ -1,5 +1,11 @@
 #encoding:utf-8
 #player.rb
+
+require_relative 'directions'
+require_relative 'dice'
+require_relative 'shield'
+require_relative 'weapon'
+
 class Player
   @@MAX_WEAPONS = 5
   @@MAX_SHIELDS = 3

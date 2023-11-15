@@ -1,12 +1,12 @@
 #encoding:utf-8
-
 require_relative 'monster'
 require_relative 'player'
 require_relative 'dice'
 require_relative 'labyrinth'
 require_relative 'orientation'
-
-
+require_relative 'directions'
+require_relative 'game_character'
+require_relative 'game_state'
 
 class Game
 
@@ -71,8 +71,6 @@ class Game
 
     return end_game
   end
-
-
 
   def get_game_state()
     game = GameState.new(@labyrinth.to_s, @players.to_s, @monsters.to_s, @current_player.get_number().to_s, finished(), @log)

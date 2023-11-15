@@ -1,4 +1,6 @@
 #encoding:utf-8
+require_relative 'dice'
+
 
 class Monster
   @@INITIAL_HEALTH = 5

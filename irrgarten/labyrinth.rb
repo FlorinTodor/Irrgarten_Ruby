@@ -2,6 +2,10 @@
 # frozen_string_literal: true
 require_relative 'monster'
 require_relative 'player'
+require_relative 'orientation'
+require_relative 'dice'
+require_relative 'directions'
+
 class Labyrinth
 
   #Atributos privados
