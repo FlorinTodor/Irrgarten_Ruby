@@ -1,5 +1,5 @@
 #encoding:utf-8
-
+#player.rb
 class Player
   @@MAX_WEAPONS = 5
   @@MAX_SHIELDS = 3
@@ -40,12 +40,12 @@ class Player
   end
 
   def set_pos(row,col)
-    @row = row
     @col = col
   end
 
   def dead
     @health <= 0.0
+    @row = row
   end
 
   def move(direction, valid_moves)

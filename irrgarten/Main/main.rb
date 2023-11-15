@@ -1,5 +1,5 @@
 require_relative '../UI/textUI'
-require_relative '../controller/controller'
+require_relative '../Controller/controller'
 require_relative '../game'
 
 module Main
@@ -17,4 +17,5 @@ module Main
 
     end
   end
+  Main.main
 end

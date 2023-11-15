@@ -1,6 +1,5 @@
 #encoding:utf-8
 
-module Irrgarten
 class Monster
   @@INITIAL_HEALTH = 5
 
@@ -47,5 +46,5 @@ class Monster
     @health -= 1
   end
 end
-end
+
 

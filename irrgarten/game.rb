@@ -1,4 +1,13 @@
 #encoding:utf-8
+
+require_relative 'monster'
+require_relative 'player'
+require_relative 'dice'
+require_relative 'labyrinth'
+require_relative 'orientation'
+
+
+
 class Game
 
   #Atributos privados
@@ -6,12 +15,13 @@ class Game
 
 
   def initialize(nplayers)
-    @monsters = Array.new
-    @players = Array.new
+    @monsters = Array.new()
+    @players = Array.new()
     @current_rounds = 0
 
-    for i in(0...nplayers)
-      @players.push(Player.new(i.to_s, Dice.random_intelligence, Dice.random_strength))
+    for i in(0..nplayers)
+      player = Player.new(i.to_s, Dice.random_intelligence, Dice.random_strength)
+      @players.push(player)
     end
     @current_player_index = Dice.random_pos(nplayers)
     @current_player = @players[@current_player_index]
@@ -103,20 +113,20 @@ class Game
     dragon = Monster.new("Dragon", Dice.random_intelligence, Dice.random_strength)
     zombie = Monster.new("Zombie", Dice.random_intelligence, Dice.random_strength)
 
-    monsters << ogre
-    monsters << vampire
-    monsters << demon
-    monsters << dragon
-    monsters << zombie
+    @monsters << ogre
+    @monsters << vampire
+    @monsters << demon
+    @monsters << dragon
+    @monsters << zombie
 
-    labyrinth.add_monster(3, 2, ogre)
-    labyrinth.add_monster(2, 10, vampire)
-    labyrinth.add_monster(2, 5, demon)
-    labyrinth.add_monster(5, 8, dragon)
-    labyrinth.add_monster(7, 12, zombie)
+    @labyrinth.add_monster(3, 2, ogre)
+    @labyrinth.add_monster(2, 10, vampire)
+    @labyrinth.add_monster(2, 5, demon)
+    @labyrinth.add_monster(5, 8, dragon)
+    @labyrinth.add_monster(7, 12, zombie)
 
-    labyrinth.set_exitrow(7)
-    labyrinth.set_exitcol(14)
+    @labyrinth.set_exitrow(7)
+    @labyrinth.set_exitcol(14)
 
   end
 

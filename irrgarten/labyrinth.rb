@@ -1,6 +1,7 @@
 #encoding:utf-8
 # frozen_string_literal: true
-
+require_relative 'monster'
+require_relative 'player'
 class Labyrinth
 
   #Atributos privados
@@ -289,7 +290,7 @@ class Labyrinth
 
   #putPlayer2D(oldRow : int, oldCol : int, row : int, col : int, player : Player) : Monster
   def put_player_2d(old_row,old_col,row,col,player)
-    output = null
+    output = nil
 
     if can_step_on(row,col)
       if pos_ok(old_row,old_col)
