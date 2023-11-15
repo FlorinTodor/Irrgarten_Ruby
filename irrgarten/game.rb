@@ -2,29 +2,27 @@
 class Game
 
   #Atributos privados
-  @@max_rounds = 10
+  @@MAX_ROUNDS = 10
+
 
   def initialize(nplayers)
     @monsters = Array.new
     @players = Array.new
     @current_rounds = 0
 
-    for i in(0..nplayers)
+    for i in(0...nplayers)
       @players.push(Player.new(i.to_s, Dice.random_intelligence, Dice.random_strength))
     end
     @current_player_index = Dice.random_pos(nplayers)
     @current_player = @players[@current_player_index]
-    @monsters = nil
+    @monsters = Array.new(5)
     @log = ""
-    @labyrinth = Labyrinth.new(10,20,5,5)
+    @labyrinth = Labyrinth.new(9,15,7,15)
     configure_labyrinth()
     @labyrinth.spread_players(nplayers)
   end
 
-  def game(nplayers)
 
-
-  end
 
   def get_max_rounds()
     return @@max_rounds
@@ -35,47 +33,91 @@ class Game
   end
 
   def next_stepp(preferred_direction)
-    return NotImplementedError
+    @log = ""
+    dead = @current_player.dead()
+
+    if !dead
+      direction = actual_direction(preferred_direction)
+      if direction != preferred_direction
+        log_player_no_orders
+      end
+      monster = @labyrinth.put_player(direction, @current_player)
+
+      if monster.nil?
+        log_no_monster
+      else
+        winner = combat(monster)
+        manage_reward(winner)
+      end
+    else
+      manage_resurrection
+    end
+
+    end_game = finished()
+
+    if(!end_game)
+      next_player()
+    end
+
+    return end_game
   end
 
+
+
   def get_game_state()
-    game = GameState.new(@labyrinth.to_s, @players.to_s, @monsters.to_s, @current_player.get_number(), finished, @log)
+    game = GameState.new(@labyrinth.to_s, @players.to_s, @monsters.to_s, @current_player.get_number().to_s, finished(), @log)
     return game
   end
 
+  private
   def configure_labyrinth
-    laberinto = [
-      ['-', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-      ['X', 'M', 'X', 'M', 'X', 'X', 'X', 'M', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-      ['X', 'X', 'X', 'M', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'M', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-      ['X', 'X', 'M', 'X', 'X', 'X', 'X', 'M', 'X', 'M', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-      ['X', 'X', 'X', 'M', 'E', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'M', 'X', 'X', 'X', 'X', 'X', 'X'],
-      ['X', 'M', 'X', 'X', 'X', 'M', 'X', 'M', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-      ['X', 'X', 'X', 'M', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-      ['X', 'X', 'X', 'M', 'X', 'X', 'M', 'X', 'X', 'X', 'M', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-      ['X', 'X', 'M', 'X', 'X', 'X', 'X', 'M', 'X', 'M', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-      ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X']
-    ]
+    # Configura el laberinto personalizado
+    # Nota: Estoy asumiendo que las dimensiones son 8x15
+    # Área
+    @labyrinth.add_block(Orientation::HORIZONTAL, 0, 0, 15) # Fila 0
+    @labyrinth.add_block(Orientation::VERTICAL, 1, 0, 7)   # Columna 0
+    @labyrinth.add_block(Orientation::HORIZONTAL, 8, 0, 15)  # Fila 7
+    @labyrinth.add_block(Orientation::VERTICAL, 1, 14, 6)   # Columna 15
 
-    #Configura el laberinto
-    for i in (0..@labyrinth.get_nrows)
-      for j in (0..@labyrinth.get_ncols)
-        if(laberinto[i][j] == 'M')
-          @labyrinth.add_monster(row,col, Monster.new("Monstruo", Dice.random_intelligence, Dice.random_strength))
-        elsif(laberinto[i][j] == 'E')
-          @labyrinth.set_exitrow(i)
-          @labyrinth.set_exitcol(j)
-        elsif(laberinto[i][j] == 'X')
-          orientation = Dice.random_pos(2)
-          if(orientation == 0)
-            @labyrinth.add_block(orientation.HORIZONTAL, i,j,1)
-          else
-            @labyrinth.add_block(orientation.VERTICAL,i,j,1)
-          end
+    # Bloques internos
+    @labyrinth.add_block(Orientation::HORIZONTAL, 2, 2, 3)
+    @labyrinth.add_block(Orientation::HORIZONTAL, 2, 8, 2)
+    @labyrinth.add_block(Orientation::HORIZONTAL, 2, 11, 2)
+    @labyrinth.add_block(Orientation::HORIZONTAL, 3, 9, 1)
+    @labyrinth.add_block(Orientation::VERTICAL, 3, 12, 2)
+    @labyrinth.add_block(Orientation::VERTICAL, 4, 11, 1)
+    @labyrinth.add_block(Orientation::VERTICAL, 4, 13, 1)
+    @labyrinth.add_block(Orientation::VERTICAL, 4, 5, 1)
+    @labyrinth.add_block(Orientation::HORIZONTAL, 4, 1, 3)
+    @labyrinth.add_block(Orientation::HORIZONTAL, 5, 3, 1)
+    @labyrinth.add_block(Orientation::HORIZONTAL, 6, 2, 2)
+    @labyrinth.add_block(Orientation::HORIZONTAL, 6, 5, 5)
+    @labyrinth.add_block(Orientation::HORIZONTAL, 6, 11, 3)
+    @labyrinth.add_block(Orientation::HORIZONTAL, 7, 7, 1)
+    @labyrinth.add_block(Orientation::VERTICAL, 2, 6, 3)
+    @labyrinth.add_block(Orientation::HORIZONTAL, 4, 7, 3)
 
-        end
-      end
-    end
+    ogre = Monster.new("Ogre", Dice.random_intelligence, Dice.random_strength)
+    vampire = Monster.new("Vampire", Dice.random_intelligence, Dice.random_strength)
+    demon = Monster.new("Demon", Dice.random_intelligence, Dice.random_strength)
+    dragon = Monster.new("Dragon", Dice.random_intelligence, Dice.random_strength)
+    zombie = Monster.new("Zombie", Dice.random_intelligence, Dice.random_strength)
+
+    monsters << ogre
+    monsters << vampire
+    monsters << demon
+    monsters << dragon
+    monsters << zombie
+
+    labyrinth.add_monster(3, 2, ogre)
+    labyrinth.add_monster(2, 10, vampire)
+    labyrinth.add_monster(2, 5, demon)
+    labyrinth.add_monster(5, 8, dragon)
+    labyrinth.add_monster(7, 12, zombie)
+
+    labyrinth.set_exit_row(7)
+    labyrinth.set_exit_col(14)
+
   end
 
   def next_player()
@@ -89,20 +131,66 @@ class Game
     @current_player = @players[@current_player_index]
   end
 
-  def actual_direction()
-    return NotImplementedError
+  def actual_direction(preferred_direction)
+    current_row = @current_player.getRow()
+    current_col = @current_player.getCol()
+
+    valid_moves = Array.new
+    valid_moves = @labyrinth.valid_moves(current_row,current_col)
+
+    output = @current_player.move(preferred_direction,valid_moves)
+
+    return output
   end
 
-  def combat(monster)
-    return NotImplementedError
+   def combat(monster)
+    rounds = 0
+    winner = GameCharacter::PLAYER
+
+    player_attack = @current_player.attack()
+
+    lose = monster.defend(player_attack)
+
+    while (!lose && rounds < MAX_ROUNDS)
+      winner = GameCharacter::MONSTER
+
+      monster_attack = monster.attack()
+
+      lose = @current_player.defend(monster_attack)
+
+      unless lose # es igual que !lose
+        player_attack = @current_player.attack()
+        winner = GameCharacter::PLAYER
+        lose = monster.defend(player_attack)
+      end
+
+      rounds += 1
+    end
+
+    log_rounds(rounds, MAX_ROUNDS)
+
+    winner
   end
+
 
   def manage_reward(winner)
-    return NotImplementedError
+    if winner == GameCharacter::PLAYER
+      @current_player.receive_reward()
+      log_player_won()
+    else
+      log_monster_won()
+    end
   end
 
   def manage_resurrection()
-    return NotImplementedError
+    resurrect = Dice.resurrect_player()
+
+    if resurrect
+      @current_player.resurrect()
+      log_resurrected()
+    else
+      log_player_skip_turn()
+    end
   end
 
   def log_player_won()
