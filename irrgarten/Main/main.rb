@@ -1,6 +1,6 @@
 require_relative 'irrgarten/ui/text_ui'
-require_relative 'irrgarten/controller'
-require_relative 'irrgarten/game'
+require_relative 'controller'
+require_relative 'game'
 
 module Main
   class Main

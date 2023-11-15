@@ -13,7 +13,6 @@ class Labyrinth
   @@row = 0
   @@col = 1
 
-
   #Metodos
   #Constructor
   def initialize (nrows, ncols, exitrow, exitcol)
@@ -72,7 +71,13 @@ class Labyrinth
   #Metodos Class Labyrinth
   #
   def spread_players(players)
-    raise NotImplementedError
+    for i in 0..players.size
+      p = players[i]
+
+      pos = random_empty_pos
+
+      put_player_2d(-1,-1,pos[@@row], pos[@@col], p)
+    end
   end
 
   #boolean haveAWinner()
@@ -82,28 +87,26 @@ class Labyrinth
 
   #String toString()
   def to_s
-    result = ''
+    laberinto = ""
 
     for i in (0..@nrows)
       for j in (0..@ncols)
-        if @players[i][j]
-          result += @players[i][j].to_s
-        elsif @monsters[i][j]
-          result += @monsters[i][j].to_s
+        if i == @exitrow && j == @exitcol
+          laberinto += @@exit_char + " "
         else
-          result += @labyrinth[i][j]
+          laberinto += @labyrinth[i][j] + " "
         end
       end
-      result += "\n"
+      laberinto += "\n"
     end
 
-    return result
+    return laberinto
   end
 
   #addMonster(int row, int col, Monster monster)
   def add_monster(row, col, monster)
     #Verifica si la posición está dentro del laberinto y está vacía
-    if(posOK(row,col) && emptyPOS(row,col))
+    if(pos_ok(row,col) && empty_pos(row,col))
 
       #Anota la presencia del monstruo en el laberinto
       @labyrinth[row][col] = @@monster_char
@@ -118,17 +121,62 @@ class Labyrinth
 
   #putPlayer(direction : Directions, player : Player) : Monster
   def put_player(direction, player)
-    raise NotImplementedError
+    old_row = player.get_row
+    old_col = player.get_col
+
+    new_pos = dir_2_pos(old_row, old_col, direction)
+
+    monster = put_player_2d(old_row, old_col, new_pos[@@row], new_pos[@@col], player)
+
+    return monster
   end
 
   #addBlock(orientation : Orientation, startRow : int, startCol : int, length : int) : void
   def add_block(orientation, start_row, start_col, length)
-    raise NotImplementedError
+    inc_row = 0
+    inc_col = 0
+
+    if orientation == Orientation::VERTICAL
+      inc_row = 1
+      inc_col = 0
+    else
+      inc_row = 0
+      inc_col = 1
+    end
+
+    inc_row = start_row
+    inc_col = start_col
+
+    while (pos_ok(@@row,@@col) && empty_pos(@@row,@@col) && length > 0)
+      @labyrinth[@@row][@@col] = @@block_char
+
+      length -= 1
+      @@row += inc_row
+      @@col += inc_col
+    end
   end
 
   #validMoves(row : int, col : int) : Directions[]
   def valid_moves(row, col)
-    raise NotImplementedError
+    output = Array.new
+
+    if can_step_on(row+1,col)
+      output.push(Directions::DOWN)
+    end
+
+    if can_step_on(row-1,col)
+      output.push(Directions::UP)
+    end
+
+    if can_step_on(row,col+1)
+      output.push(Directions::RIGHT)
+    end
+
+    if can_step_on(row,col-1)
+      output.push(Directions::LEFT)
+    end
+
+    return output
   end
 
   #posOK(row : int, col : int) : boolean
@@ -148,10 +196,10 @@ class Labyrinth
   end
 
   #monsterPos(row : int, col : int) : boolean
-  def monster_pos(row,int)
+  def monster_pos(row,col)
     if(pos_ok(row,col))
       #Comprobamos que unicamente se encuentra un monster
-      return (@labyrinth[row][col] == @@empty_char && @players[row][col] == nil && @monsters[row][col] != nil)
+      return (@players[row][col] == nil && @monsters[row][col] != nil)
     end
 
     return false
@@ -185,7 +233,7 @@ class Labyrinth
   #updateOldPos(row : int, col : int) : void
   def update_old_pos(row,col)
     if(pos_ok(row,col))
-      if(@labyrinth[row][col] == @@combat_char)
+      if(combat_pos(row,col))
         #Si el estado de la casilla era de combate, cambia a estado de monstruo
         @labyrinth[row][col] = @@monster_char
       else
@@ -241,10 +289,32 @@ class Labyrinth
 
   #putPlayer2D(oldRow : int, oldCol : int, row : int, col : int, player : Player) : Monster
   def put_player_2d(old_row,old_col,row,col,player)
-    raise NotImplementedError
+    output = null
+
+    if can_step_on(row,col)
+      if pos_ok(old_row,old_col)
+        p = @players[old_row][old_col]
+
+        if p == player
+          update_old_pos(old_row,old_col)
+          @players[old_row][old_col] = nil
+        end
+      end
+
+      monster_pos = monster_pos(row,col)
+
+      if monster_pos
+        @labyrinth[row][col] = @@combat_char
+        output = @monsters[row][col]
+      else
+        number = player.get_number
+        @labyrinth[row][col] = number
+      end
+
+      @players[row][col] = player
+      player.set_pos(row,col)
+    end
+
+    return output
   end
-
-
-
 end
-

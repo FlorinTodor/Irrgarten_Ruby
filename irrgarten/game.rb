@@ -32,7 +32,7 @@ class Game
     return @labyrinth.have_a_winner
   end
 
-  def next_stepp(preferred_direction)
+  def next_step(preferred_direction)
     @log = ""
     dead = @current_player.dead()
 
