@@ -1,6 +1,9 @@
 require_relative '../UI/textUI'
 require_relative '../Controller/controller'
-require_relative '../game'
+require_relative '../irrgarten/game'
+include UI
+include Control
+include Irrgarten
 
 module Main
   class Main

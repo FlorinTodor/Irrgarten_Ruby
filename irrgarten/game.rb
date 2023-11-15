@@ -15,8 +15,8 @@ class Game
 
 
   def initialize(nplayers)
-    @monsters = Array.new()
-    @players = Array.new()
+    @monsters = Array.new
+    @players = Array.new
     @current_rounds = 0
 
     for i in(0..nplayers)
@@ -44,7 +44,7 @@ class Game
 
   def next_step(preferred_direction)
     @log = ""
-    dead = @current_player.dead()
+    dead = @current_player.dead
 
     if !dead
       direction = actual_direction(preferred_direction)
@@ -63,17 +63,17 @@ class Game
       manage_resurrection
     end
 
-    end_game = finished()
+    end_game = finished
 
-    if(!end_game)
-      next_player()
+    unless end_game
+      next_player
     end
 
-    return end_game
+    end_game
   end
 
-  def get_game_state()
-    game = GameState.new(@labyrinth.to_s, @players.to_s, @monsters.to_s, @current_player.get_number().to_s, finished(), @log)
+  def get_game_state
+    game = Irrgarten::Game_state.new(@labyrinth.to_s, @players.to_s, @monsters.to_s, @current_player.get_number.to_s, finished, @log)
     return game
   end
 

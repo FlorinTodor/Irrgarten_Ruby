@@ -1,3 +1,10 @@
+require_relative '../irrgarten/labyrinth'
+require_relative '../irrgarten/game'
+require_relative '../irrgarten/game_state'
+require_relative '../irrgarten/directions'
+require_relative '../irrgarten/player'
+require_relative '../irrgarten/monster'
+
 module UI
 
   class TextUI

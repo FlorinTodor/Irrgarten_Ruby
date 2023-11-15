@@ -41,7 +41,7 @@ class Labyrinth
   end
 
   #Metodos getters y setters para nrows, ncols, exitrow, exit
-  def get_nrows()
+  def get_nrows
     return @nrows
   end
 
@@ -49,24 +49,24 @@ class Labyrinth
     @nrows = nrows
   end
 
-  def get_ncols()
-    return @ncols
+  def get_ncols
+    @ncols
   end
 
   def set_ncols(ncols)
     @ncols = ncols
   end
 
-  def get_exitrow()
-    return @exitrow
+  def get_exitrow
+    @exitrow
   end
 
   def set_exitrow(exitrow)
     @exitrow = exitrow
   end
 
-  def get_exitcol()
-    return @exitcol
+  def get_exitcol
+    @exitcol
   end
 
   def set_exitcol(exitcol)
@@ -74,14 +74,10 @@ class Labyrinth
   end
 
   #Metodos Class Labyrinth
-  #
   def spread_players(players)
-    for i in 0..players.size
-      p = players[i]
-
+    for player in players do
       pos = random_empty_pos
-
-      put_player_2d(-1,-1,pos[@@row], pos[@@col], p)
+      put_player_2d(-1, -1, pos[@@row], pos[@@col], player)
     end
   end
 

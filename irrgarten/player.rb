@@ -46,12 +46,12 @@ class Player
   end
 
   def set_pos(row,col)
+    @row = row
     @col = col
   end
 
   def dead
     @health <= 0.0
-    @row = row
   end
 
   def move(direction, valid_moves)

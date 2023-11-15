@@ -1,3 +1,7 @@
+require_relative '../irrgarten/game'
+require_relative '../UI/textUI'
+require_relative '../irrgarten/directions'
+
 module Control
 
   class Controller
@@ -9,7 +13,7 @@ module Control
     def play
       end_of_game = false
       while (!end_of_game)
-        @view.show_game(@game.game_state) 
+        @view.show_game(@game.get_game_state)
         direction = @view.next_move 
         end_of_game = @game.next_step(direction)
       end
