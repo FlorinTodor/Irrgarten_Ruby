@@ -9,9 +9,9 @@ class Player
 
   def initialize(number, intelligence, strength)
     @number = number
-    @name = "Player # #{number}"
+    @name = "Player ##{number}"
     @intelligence = intelligence
-    @strength = strength #prueba github
+    @strength = strength
     @health = @@INITIAL_HEALTH
     @weapons = Array.new(@@MAX_WEAPONS)
     @shields = Array.new(@@MAX_SHIELDS)
@@ -27,12 +27,37 @@ class Player
     @consecutive_hits = 0
   end
 
+  def get_row
+    @row
+  end
+
+  def get_col
+    @col
+  end
+
+  def get_number
+    @number
+  end
+
+  def set_pos(row,col)
+    @row = row
+    @col = col
+  end
+
   def dead
-    @health <= 0
+    @health <= 0.0
   end
 
   def move(direction, valid_moves)
-    raise NotImplementedError, 'This method is not implemented yet.'
+    size = valid_moves.size
+    contained = valid_moves.contains(direction)
+
+    if size > 0 && !contained
+      firs_element = valid_moves[0]
+      return firs_element
+    else
+      return direction
+    end
   end
 
   def attack
@@ -44,21 +69,61 @@ class Player
   end
 
   def receive_reward
-    raise NotImplementedError
+    w_reward = Dice.weapons_reward
+    s_reward = Dice.shields_reward
+
+    for i in 0..w_reward
+      wnew = new_weapon
+      receive_weapon(wnew)
+    end
+
+    for i in 0..s_reward
+      snew = new_shield
+      receive_shield(snew)
+    end
+
+    extra_health = Dice.health_reward
+    @health += extra_health
   end
 
   def to_s
-    "Player [name: #{@name}, intelligence: #{@intelligence}, strength: #{@strength}, health: #{@health}, row: #{@row}, col: #{@col}, weapons: #{@weapons.to_s}, shields: #{@shields.to_s}]"
+    "Name: #{@name}, Intelligence: #{@intelligence}, Strength: #{@strength}, Health: #{@health}, Row: #{@row},
+      Col: #{@col}, Weapons: #{@weapons.to_s}, Shields: #{@shields.to_s}\n"
   end
 
   private
 
   def receive_weapon(weapon)
-    raise NotImplementedError
+    for i in 0..@weapons.size
+      wi = @weapons[i]
+      discard = wi.discard
+
+      if discard
+        @weapons.delete_at(i)
+      end
+    end
+
+    size = @weapons.size
+    if size < @@MAX_WEAPONS
+      @weapons.push(weapon)
+    end
   end
 
   def receive_shield(shield)
-    raise NotImplementedError
+    for i in 0..@shields.size
+      si = @shields[i]
+      discard = si.discard
+
+      if discard
+        @shields.delete_at(i)
+      end
+    end
+
+    size = @shields.size
+
+    if size < @@MAX_WEAPONS
+      @weapons.push(shield)
+    end
   end
 
   def new_weapon
@@ -90,7 +155,7 @@ class Player
   end
 
   def sum_weapons
-    sum = 0
+    sum = 0.0
     for weapon in @weapons
       sum += weapon.attack
     end
@@ -98,7 +163,7 @@ class Player
   end
 
   def sum_shields
-    sum = 0
+    sum = 0.0
     for shield in @shields
       sum += shield.protect
     end
@@ -110,7 +175,22 @@ class Player
   end
 
   def manage_hit(received_attack)
-    raise NotImplementedError
+    lose = false
+    defense = defensive_energy
+
+    if defense < received_attack
+      got_wounded
+      inc_consecutive_hits
+    else
+      reset_hits
+    end
+
+    if @consecutive_hits == @@HITS2LOSE || dead
+      reset_hits
+      lose=true
+    end
+
+    lose
   end
 
   def reset_hits

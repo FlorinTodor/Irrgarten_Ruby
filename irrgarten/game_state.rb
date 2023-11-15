@@ -2,16 +2,16 @@
 #frozen_string_literal: true
 
 class Game_state
-  @labyrinthv =""
-  @players =""
-  @monsters =""
-  @current_player=0
-  @winner=false
-  @log=""
+  #@labyrinth =""
+  #@players =""
+  #@monsters =""
+  #@current_player=0
+  #@winner=false
+  #@log=""
 
   #constructor
   def initialize(laberinto,jugadores,monstruos,indice_jugador,ganador,atributo)
-    @labyrinthv=laberinto
+    @labyrinth=laberinto
     @players=jugadores
     @monsters=monstruos
     @current_player = indice_jugador
@@ -19,8 +19,8 @@ class Game_state
     @log = atributo
   end
 
-  def labyrinthv
-    @labyrinthv
+  def labyrinth
+    @labyrinth
   end
 
   def players
@@ -42,5 +42,4 @@ class Game_state
   def log
     @log
   end
-
 end

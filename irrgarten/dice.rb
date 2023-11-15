@@ -23,35 +23,40 @@ class Dice
     return @@GENERATOR.rand(nplayers)
   end
 
-  def self.random_intelligence()
+  def self.random_intelligence
     return @@GENERATOR.rand * @@MAX_INTELLIGENCE
   end
 
-  def self.random_strength()
+  def self.random_strength
     return @@GENERATOR.rand * @@MAX_STRENGHT
   end
 
-  def self.resurrect_player()
+  def self.resurrect_player
     return @@GENERATOR.rand <= @@RESURRECT_PROB
   end
 
-  def self.weapons_reward()
+  def self.weapons_reward
     return @@GENERATOR.rand(@@WEAPONS_REWARD)
   end
 
-  def self.shields_reward()
+  def self.shields_reward
     return @@GENERATOR.rand(@@SHIELDS_REWARD)
   end
 
-  def self.weapon_power()
+  def self.health_reward
+    return @@GENERATOR.rand(@@HEALTH_REWARD)
+
+  end
+
+  def self.weapon_power
     return @@GENERATOR.rand * @@MAX_ATTACK
   end
 
-  def self.shield_power()
+  def self.shield_power
     return @@GENERATOR.rand * @@MAX_SHIELD
   end
 
-  def self.uses_left()
+  def self.uses_left
     return @@GENERATOR.rand(@@MAX_USES)
   end
 

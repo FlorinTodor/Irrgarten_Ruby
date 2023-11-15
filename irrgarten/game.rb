@@ -56,8 +56,26 @@ class Game
       ['X', 'X', 'M', 'X', 'X', 'X', 'X', 'M', 'X', 'M', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
       ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X']
     ]
-    #Configura el laberinto
 
+    #Configura el laberinto
+    for i in (0..@labyrinth.get_nrows)
+      for j in (0..@labyrinth.get_ncols)
+        if(laberinto[i][j] == 'M')
+          @labyrinth.add_monster(row,col, Monster.new("Monstruo", Dice.random_intelligence, Dice.random_strength))
+        elsif(laberinto[i][j] == 'E')
+          @labyrinth.set_exitrow(i)
+          @labyrinth.set_exitcol(j)
+        elsif(laberinto[i][j] == 'X')
+          orientation = Dice.random_pos(2)
+          if(orientation == 0)
+            @labyrinth.add_block(orientation.HORIZONTAL, i,j,1)
+          else
+            @labyrinth.add_block(orientation.VERTICAL,i,j,1)
+          end
+
+        end
+      end
+    end
   end
 
   def next_player()

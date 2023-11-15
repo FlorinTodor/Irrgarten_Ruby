@@ -1,6 +1,7 @@
 
 require 'io/console'
-require_relative 'directions'
+require_relative 'irrgarten/directions'
+require_relative 'irrgarten/game_state'
 
 module UI
 
@@ -57,9 +58,28 @@ module UI
     end
 
     def show_game(game_state)
+      # Mostrar información del laberinto
+      puts "Laberinto:"
+      puts game_state.labyrinth
 
+      # Mostrar información de los jugadores
+      puts "\nJugadores:"
+      puts game_state.players
+
+      # Mostrar información de los monstruos
+      puts "\nMonstruos:"
+      puts game_state.monsters
+
+      # Mostrar información del jugador actual
+      puts "\nTurno del Jugador: #{game_state.current_player}"
+
+      # Mostrar el registro (log) del juego
+      puts "\nRegistro del Juego:"
+      puts game_state.log
+
+      # Mostrar si hay un ganador
+      puts "¡Felicidades! ¡Has ganado!" if game_state.winner
     end
-
   end # class   
 
 end # module   

@@ -14,7 +14,7 @@ class Monster
   end
 
   def dead
-    @health <= 0
+    @health <= 0.0
   end
 
   def attack
@@ -22,7 +22,16 @@ class Monster
   end
 
   def defend(received_attack)
-    raise NotImplementedError
+    is_dead = dead
+    unless is_dead #if (!is_dead)
+      defensive_energy = Dice.intensity(@intelligence)
+
+      if defensive_energy < received_attack {
+        got_wounded
+        is_dead = dead
+      }
+      end
+    end
   end
 
   def set_pos(row, col)
@@ -31,10 +40,8 @@ class Monster
   end
 
   def to_s
-    "Monster [name: #{@name}, intelligence: #{@intelligence}, strength: #{@strength}, health: #{@health}, row: #{@row}, col: #{@col}]"
+    "Name: #{@name}, Intelligence: #{@intelligence}, Strength: #{@strength}, Health: #{@health}, Row: #{@row}, Col: #{@col}\n"
   end
-
-  private
 
   def got_wounded
     @health -= 1

@@ -1,7 +1,6 @@
 #encoding:utf-8
 # frozen_string_literal: true
 
-
 class Shield
   @protection = 0.0
   @uses = 0
@@ -11,22 +10,22 @@ class Shield
     @uses = u
   end
 
-  def protect()
+  def protect
     if (@uses > 0)
       @uses -= 1
-      return (@protection)
+      @protection
 
     else
-      return(0)
+      0
     end
 
   end
 
   def to_s
-    return "S[#{@protection},#{@uses}]"
+    "S[Protection: #{@protection}, Uses: #{@uses}]"
   end
 
-  def discard()
-    return Dice.discard_element(@uses)
+  def discard
+    Dice.discard_element(@uses)
   end
 end

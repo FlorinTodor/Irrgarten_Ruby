@@ -9,22 +9,22 @@ class Weapon
     @uses = u
   end
 
-  def attack()
+  def attack
     if (@uses > 0)
       @uses -= 1
-      return @power
+      @power
 
     else
-      return (0)
+      0
     end
   end
 
-  def to_s()
-    return "W[#{@power},#{@uses}]"
+  def to_s
+    "W[Power: #{@power}, Uses: #{@uses}]"
   end
 
-  def discard()
-    return Dice.discard_element(@uses)
+  def discard
+    Dice.discard_element(@uses)
   end
 
 
