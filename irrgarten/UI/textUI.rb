@@ -1,7 +1,3 @@
-require 'io/console'
-require_relative 'irrgarten/directions'
-require_relative 'irrgarten/game_state'
-
 module UI
 
   class TextUI
