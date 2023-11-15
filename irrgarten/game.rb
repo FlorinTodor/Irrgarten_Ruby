@@ -115,8 +115,8 @@ class Game
     labyrinth.add_monster(5, 8, dragon)
     labyrinth.add_monster(7, 12, zombie)
 
-    labyrinth.set_exit_row(7)
-    labyrinth.set_exit_col(14)
+    labyrinth.set_exitrow(7)
+    labyrinth.set_exitcol(14)
 
   end
 
