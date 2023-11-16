@@ -91,8 +91,8 @@ class Labyrinth
   def to_s
     laberinto = ""
 
-    for i in (0..@nrows)
-      for j in (0..@ncols)
+    for i in (0...@nrows)
+      for j in (0...@ncols)
         if i == @exitrow && j == @exitcol
           laberinto += @@exit_char + " "
         else
