@@ -251,13 +251,13 @@ class Labyrinth
     new_col = col
 
     case direction
-    when UP
+    when Directions::UP
       new_row -= 1
-    when DOWN
+    when Directions::DOWN
       new_row += 1
-    when LEFT
+    when Directions::LEFT
       new_col -= 1
-    when RIGHT
+    when Directions::RIGHT
       new_col += 1
     end
 

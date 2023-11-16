@@ -57,7 +57,7 @@ class Player
 
   def move(direction, valid_moves)
     size = valid_moves.size
-    contained = valid_moves.contains(direction)
+    contained = valid_moves.include?(direction)
 
     if size > 0 && !contained
       firs_element = valid_moves[0]
