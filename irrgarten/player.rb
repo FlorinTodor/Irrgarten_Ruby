@@ -13,7 +13,6 @@ class Player
   @@INITIAL_HEALTH = 10
   @@HITS2LOSE = 3
 
-
   def initialize(number, intelligence, strength)
     @number = number
     @name = "Player ##{number}"
@@ -56,7 +55,7 @@ class Player
   end
 
   def move(direction, valid_moves)
-    size = valid_moves.size
+    size = valid_moves.length
     contained = valid_moves.include?(direction)
 
     if size > 0 && !contained
@@ -79,12 +78,12 @@ class Player
     w_reward = Dice.weapons_reward
     s_reward = Dice.shields_reward
 
-    for i in 0..w_reward
+    for i in (0...w_reward)
       wnew = new_weapon
       receive_weapon(wnew)
     end
 
-    for i in 0..s_reward
+    for i in (0...s_reward)
       snew = new_shield
       receive_shield(snew)
     end
@@ -101,12 +100,12 @@ class Player
   private
 
   def receive_weapon(weapon)
-    for i in 0..@weapons.size
+    for i in (0...@weapons.size)
       wi = @weapons[i]
       discard = wi.discard
 
       if discard
-        @weapons.delete_at(i)
+        @weapons.delete_at(wi)
       end
     end
 
@@ -117,19 +116,19 @@ class Player
   end
 
   def receive_shield(shield)
-    for i in 0..@shields.size
+    for i in (0...@shields.size)
       si = @shields[i]
       discard = si.discard
 
       if discard
-        @shields.delete_at(i)
+        @shields.delete_at(si)
       end
     end
 
     size = @shields.size
 
-    if size < @@MAX_WEAPONS
-      @weapons.push(shield)
+    if size < @@MAX_SHIELDS
+      @shields.push(shield)
     end
   end
 

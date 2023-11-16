@@ -33,6 +33,7 @@ class Monster
       }
       end
     end
+    return is_dead
   end
 
   def set_pos(row, col)

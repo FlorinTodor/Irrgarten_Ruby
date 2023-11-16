@@ -5,8 +5,6 @@ require_relative 'player'
 require_relative 'labyrinth'
 module Irrgarten
 class Game_state
-
-
   #constructor
   def initialize(laberinto,jugadores,monstruos,indice_jugador,ganador,atributo)
     @labyrinth=laberinto

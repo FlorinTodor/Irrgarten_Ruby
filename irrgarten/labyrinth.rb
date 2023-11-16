@@ -10,13 +10,13 @@ class Labyrinth
 
   #Atributos privados
 
-  @@block_char = 'X'
-  @@empty_char = '-'
-  @@monster_char = 'M'
-  @@combat_char = 'C'
-  @@exit_char = 'E'
-  @@row = 0
-  @@col = 1
+  @@BLOCK_CHAR = 'X'
+  @@EMPTY_CHAR = '-'
+  @@MONSTER_CHAR = 'M'
+  @@COMBAT_CHAR = 'C'
+  @@EXIT_CHAR = 'E'
+  @@ROW = 0
+  @@COL = 1
 
   #Metodos
   #Constructor
@@ -28,13 +28,13 @@ class Labyrinth
 
 
     #En este caso, se pone ' ' porque tiene un miembro char llamado content
-    @labyrinth = Array.new(nrows){Array.new(ncols){@@empty_char}}
+    @labyrinth = Array.new(nrows){Array.new(ncols){@@EMPTY_CHAR}}
     @monsters = Array.new(nrows){Array.new(ncols){nil}}
     @players = Array.new(nrows) {Array.new(ncols){nil}}
 
     for i in (0...nrows) #Parentesis para evitar problemas
       for j in (0...ncols) #Parentesis para evitar problemas
-        @labyrinth[i][j] = @@empty_char
+        @labyrinth[i][j] = @@EMPTY_CHAR
         @monsters[i][j] = nil #nil es lo mismo que "null" en Java
         @players[i][j] = nil #nil es lo mismo que "null" en Java
       end
@@ -43,7 +43,7 @@ class Labyrinth
 
   #Metodos getters y setters para nrows, ncols, exitrow, exit
   def get_nrows
-    return @nrows
+    @nrows
   end
 
   def set_nrows(nrows)
@@ -76,15 +76,16 @@ class Labyrinth
 
   #Metodos Class Labyrinth
   def spread_players(players)
-    for player in players do
+    for i in (0...players.length)
+      p = players[i]
       pos = random_empty_pos
-      put_player_2d(-1, -1, pos[@@row], pos[@@col], player)
+      put_player_2d(-1, -1, pos[@@ROW], pos[@@COL], p)
     end
   end
 
   #boolean haveAWinner()
-  def have_a_winner()
-    return @players[@exitrow][@exitcol] != nil
+  def have_a_winner
+    @players[@exitrow][@exitcol] != nil
   end
 
   #String toString()
@@ -94,24 +95,24 @@ class Labyrinth
     for i in (0...@nrows)
       for j in (0...@ncols)
         if i == @exitrow && j == @exitcol
-          laberinto += @@exit_char + " "
+          laberinto += @@EXIT_CHAR + " "
         else
-          laberinto += "#{@labyrinth[i][j]} "
+          laberinto += @labyrinth[i][j] + " "
         end
       end
       laberinto += "\n"
     end
 
-    return laberinto
+    laberinto
   end
 
   #addMonster(int row, int col, Monster monster)
   def add_monster(row, col, monster)
     #Verifica si la posición está dentro del laberinto y está vacía
-    if(pos_ok(row,col) && empty_pos(row,col))
+    if pos_ok(row,col) && empty_pos(row,col)
 
       #Anota la presencia del monstruo en el laberinto
-      @labyrinth[row][col] = @@monster_char
+      @labyrinth[row][col] = @@MONSTER_CHAR
 
       #Guarda la referencia del monstruo en el atributo adecuado
       @monsters[row][col] = monster
@@ -128,7 +129,7 @@ class Labyrinth
 
     new_pos = dir_2_pos(old_row, old_col, direction)
 
-    monster = put_player_2d(old_row, old_col, new_pos[@@row], new_pos[@@col], player)
+    monster = put_player_2d(old_row, old_col, new_pos[@@ROW], new_pos[@@COL], player)
 
     return monster
   end
@@ -146,8 +147,8 @@ class Labyrinth
     row = start_row
     col = start_col
 
-    while (pos_ok(row,col) && empty_pos(row,col) && length > 0)
-      @labyrinth[row][col] = @@block_char
+    while pos_ok(row,col) && empty_pos(row,col) && length > 0
+      @labyrinth[row][col] = @@BLOCK_CHAR
 
       length -= 1
       row += inc_row
@@ -186,8 +187,8 @@ class Labyrinth
   #emptyPos(row : int, col : int) : boolean
   def empty_pos(row, col)
     #Primero comprobamos si es una posición dentro del laberinto
-    if(pos_ok(row,col))
-      return (@labyrinth[row][col] == @@empty_char && @players[row][col] == nil && @monsters[row][col] == nil)
+    if pos_ok(row,col)
+      return (@labyrinth[row][col] == @@EMPTY_CHAR && @players[row][col] == nil && @monsters[row][col] == nil)
     end
 
     #Si no se considera ni posicion del laberinto return false
@@ -196,7 +197,7 @@ class Labyrinth
 
   #monsterPos(row : int, col : int) : boolean
   def monster_pos(row,col)
-    if(pos_ok(row,col))
+    if pos_ok(row,col)
       #Comprobamos que unicamente se encuentra un monster
       return (@players[row][col] == nil && @monsters[row][col] != nil)
     end
@@ -206,7 +207,7 @@ class Labyrinth
 
   #exitPos(row : int, col : int) : boolean
   def exit_pos(row,col)
-    if(pos_ok(row,col))
+    if pos_ok(row,col)
       return (row == @exitrow && col == @exitcol)
     end
 
@@ -215,9 +216,9 @@ class Labyrinth
 
   #combatPos(row : int, col : int) : boolean
   def combat_pos(row,col)
-    if(pos_ok(row,col))
+    if pos_ok(row,col)
       #Comprobamos que unicamente se encuentra un monster
-      return (@labyrinth[row][col] == @@combat_char && @players[row][col] != nil && @monsters[row][col] != nil)
+      return (@labyrinth[row][col] == @@COMBAT_CHAR && @players[row][col] != nil && @monsters[row][col] != nil)
     end
 
     return false
@@ -231,13 +232,13 @@ class Labyrinth
 
   #updateOldPos(row : int, col : int) : void
   def update_old_pos(row,col)
-    if(pos_ok(row,col))
-      if(combat_pos(row,col))
+    if pos_ok(row,col)
+      if combat_pos(row,col)
         #Si el estado de la casilla era de combate, cambia a estado de monstruo
-        @labyrinth[row][col] = @@monster_char
+        @labyrinth[row][col] = @@MONSTER_CHAR
       else
         #En otro caso, cambia a estado de casilla vacia
-        @labyrinth[row][col] = @@empty_char
+        @labyrinth[row][col] = @@EMPTY_CHAR
       end
     end
   end
@@ -268,14 +269,14 @@ class Labyrinth
   #randomEmptyPos() : int[]
   def random_empty_pos()
     position = [0,0]
-    max_intentos = @nrows*@ncols
+    max_intentos = @nrows * @ncols
 
-    for i in (0..max_intentos)
+    for i in (0...max_intentos)
       random_row = Dice.random_pos(@nrows) #Genera fila aleatoria
       random_col = Dice.random_pos(@ncols) #Genera columna aleatoria
 
       #Comprobamos que sea una posicion vacia
-      if(empty_pos(random_row, random_col))
+      if empty_pos(random_row, random_col) && random_row != @exitrow && random_col != @exitcol
         position[0] = random_row
         position[1] = random_col
         return position #Devuelve la posición vacía
@@ -303,10 +304,9 @@ class Labyrinth
       monster_pos = monster_pos(row,col)
 
       if monster_pos
-        @labyrinth[row][col] = @@combat_char
+        @labyrinth[row][col] = @@COMBAT_CHAR
         output = @monsters[row][col]
       else
-
         @labyrinth[row][col] = player.get_number
       end
 

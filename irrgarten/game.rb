@@ -17,12 +17,12 @@ class Game
   def initialize(nplayers)
     @monsters = Array.new
     @players = Array.new
-    @current_rounds = 0
 
-    for i in(0..nplayers)
+    (0...nplayers).each { |i|
       player = Player.new(i.to_s, Dice.random_intelligence, Dice.random_strength)
       @players.push(player)
-    end
+    }
+
     @current_player_index = Dice.random_pos(nplayers)
     @current_player = @players[@current_player_index]
     @monsters = Array.new(5)
@@ -32,14 +32,12 @@ class Game
     @labyrinth.spread_players(@players)
   end
 
-
-
-  def get_max_rounds()
-    return @@max_rounds
+  def get_max_rounds
+    @@MAX_ROUNDS
   end
 
-  def finished()
-    return @labyrinth.have_a_winner
+  def finished
+    @labyrinth.have_a_winner
   end
 
   def next_step(preferred_direction)
@@ -48,12 +46,14 @@ class Game
 
     if !dead
       direction = actual_direction(preferred_direction)
+
       if direction != preferred_direction
         log_player_no_orders
       end
+
       monster = @labyrinth.put_player(direction, @current_player)
 
-      if monster.nil?
+      if monster == nil
         log_no_monster
       else
         winner = combat(monster)
@@ -128,7 +128,7 @@ class Game
 
   end
 
-  def next_player()
+  def next_player
     total = @players.length
 
     #Incrementa el indice del jugador actual
@@ -140,10 +140,9 @@ class Game
   end
 
   def actual_direction(preferred_direction)
-    current_row = @current_player.get_row()
-    current_col = @current_player.get_col()
+    current_row = @current_player.get_row
+    current_col = @current_player.get_col
 
-    valid_moves = Array.new
     valid_moves = @labyrinth.valid_moves(current_row,current_col)
 
     output = @current_player.move(preferred_direction,valid_moves)
@@ -153,78 +152,77 @@ class Game
 
    def combat(monster)
     rounds = 0
-    winner = GameCharacter::PLAYER
+    winner = Game_character::PLAYER
 
-    player_attack = @current_player.attack()
+    player_attack = @current_player.attack
 
     lose = monster.defend(player_attack)
 
-    while (!lose && rounds < MAX_ROUNDS)
-      winner = GameCharacter::MONSTER
+    while !lose && rounds < @@MAX_ROUNDS
+      winner = Game_character::MONSTER
 
-      monster_attack = monster.attack()
+      monster_attack = monster.attack
 
       lose = @current_player.defend(monster_attack)
 
       unless lose # es igual que !lose
-        player_attack = @current_player.attack()
-        winner = GameCharacter::PLAYER
+        player_attack = @current_player.attack
+        winner = Game_character::PLAYER
         lose = monster.defend(player_attack)
       end
 
       rounds += 1
     end
 
-    log_rounds(rounds, MAX_ROUNDS)
+    log_rounds(rounds, @@MAX_ROUNDS)
 
     winner
   end
 
-
   def manage_reward(winner)
-    if winner == GameCharacter::PLAYER
-      @current_player.receive_reward()
-      log_player_won()
+    if winner == Game_character::PLAYER
+      @current_player.receive_reward
+      log_player_won
     else
-      log_monster_won()
+      log_monster_won
     end
   end
 
-  def manage_resurrection()
-    resurrect = Dice.resurrect_player()
+  def manage_resurrection
+    resurrect = Dice.resurrect_player
 
     if resurrect
-      @current_player.resurrect()
-      log_resurrected()
+      @current_player.resurrect
+      log_resurrected
     else
-      log_player_skip_turn()
+      log_player_skip_turn
     end
   end
 
-  def log_player_won()
+  def log_player_won
     @log += "El jugador " + @current_player.get_number + " ha ganado el combate.\n"
   end
 
-  def log_monster_won()
+  def log_monster_won
     @log += "El monstruo ha ganado el combate.\n"
   end
 
-  def log_resurrected()
+  def log_resurrected
     @log += "El jugador " + @current_player.get_number + " ha resucitado.\n"
   end
 
-  def log_player_skip_turn()
+  def log_player_skip_turn
     @log += "El jugador " + @current_player.get_number + " ha perdido el turno por estar muerto.\n"
   end
 
-  def log_player_no_orders()
+  def log_player_no_orders
     @log += "El jugador " + @current_player.get_number + " no ha seguido las instrucciones del jugador humano " +
-      "(no fue posible).\n";
+      "(no fue posible).\n"
   end
 
-  def log_no_monster()
+  def log_no_monster
     @log += "El jugador " + @current_player.get_number + " se ha movido a una celda vacía o no le ha sido " +
-      "posible moverse.\n";
+      "posible moverse.\n"
   end
 
   def log_rounds(rounds, max)

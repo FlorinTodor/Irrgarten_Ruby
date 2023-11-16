@@ -74,7 +74,6 @@ class Dice
     probabilidad = uses_left.to_f / @@MAX_USES.to_f
 
     # Si el número aleatorio es menor que la probabilidad, devolver true
-
     return @@GENERATOR.rand > probabilidad
   end
 end

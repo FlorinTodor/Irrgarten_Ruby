@@ -4,7 +4,7 @@ require_relative '../irrgarten/game_state'
 require_relative '../irrgarten/directions'
 require_relative '../irrgarten/player'
 require_relative '../irrgarten/monster'
-require   'io/console'
+require 'io/console'
 
 module UI
 

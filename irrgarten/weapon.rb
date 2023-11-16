@@ -12,12 +12,11 @@ class Weapon
   end
 
   def attack
-    if (@uses > 0)
+    if @uses > 0
       @uses -= 1
-      @power
-
+      return @power
     else
-      0
+      return 0
     end
   end
 
@@ -28,7 +27,5 @@ class Weapon
   def discard
     Dice.discard_element(@uses)
   end
-
-
 end
 end

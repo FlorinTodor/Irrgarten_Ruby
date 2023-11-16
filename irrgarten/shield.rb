@@ -3,23 +3,18 @@
 require_relative 'dice'
 module Irrgarten
 class Shield
-  @protection = 0.0
-  @uses = 0
-
   def initialize(p,u)
     @protection = p
     @uses = u
   end
 
   def protect
-    if (@uses > 0)
+    if @uses > 0
       @uses -= 1
-      @protection
-
+      return @protection
     else
-      0
+      return 0
     end
-
   end
 
   def to_s
