@@ -13,7 +13,6 @@ class Game
   #Atributos privados
   @@MAX_ROUNDS = 10
 
-
   def initialize(nplayers)
     @monsters = Array.new
     @players = Array.new
@@ -73,7 +72,7 @@ class Game
   end
 
   def get_game_state
-    game = Irrgarten::Game_state.new(@labyrinth.to_s, @players.to_s, @monsters.to_s, @current_player.get_number.to_s, finished, @log)
+    game = Game_state.new(@labyrinth, @players, @monsters, @current_player.get_number.to_s, finished, @log)
     return game
   end
 
@@ -143,6 +142,7 @@ class Game
     current_row = @current_player.get_row
     current_col = @current_player.get_col
 
+    valid_moves = Array.new
     valid_moves = @labyrinth.valid_moves(current_row,current_col)
 
     output = @current_player.move(preferred_direction,valid_moves)
@@ -200,7 +200,7 @@ class Game
   end
 
   def log_player_won
-    @log += "El jugador " + @current_player.get_number + " ha ganado el combate.\n"
+    @log += "El jugador  #{@current_player.get_number} ha ganado el combate.\n"
   end
 
   def log_monster_won
@@ -208,16 +208,15 @@ class Game
   end
 
   def log_resurrected
-    @log += "El jugador " + @current_player.get_number + " ha resucitado.\n"
+    @log += "El jugador #{@current_player.get_number} ha resucitado.\n"
   end
 
   def log_player_skip_turn
-    @log += "El jugador " + @current_player.get_number + " ha perdido el turno por estar muerto.\n"
+    @log += "El jugador #{@current_player.get_number} ha perdido el turno por estar muerto.\n"
   end
 
   def log_player_no_orders
-    @log += "El jugador " + @current_player.get_number + " no ha seguido las instrucciones del jugador humano " +
-      "(no fue posible).\n"
+    @log += "El jugador #{@current_player.get_number} no ha seguido las instrucciones del jugador humano (no fue posible).\n"
   end
 
   def log_no_monster

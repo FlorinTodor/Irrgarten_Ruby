@@ -198,11 +198,7 @@ class Labyrinth
 
   #exitPos(row : int, col : int) : boolean
   def exit_pos(row,col)
-    if pos_ok(row,col)
-      return (row == @exitrow && col == @exitcol)
-    end
-
-    return false
+    row == @exitrow && col == @exitcol
   end
 
   #combatPos(row : int, col : int) : boolean
@@ -218,7 +214,7 @@ class Labyrinth
   #canStepOn(row : int, col : int) : boolean
   def can_step_on(row,col)
     #Comprobamos que primero sea una posicion valida y que al menos sea una de las 3 opciones
-    return (pos_ok(row,col) && empty_pos(row,col) || monster_pos(row,col) || exit_pos(row,col))
+    pos_ok(row,col) && (empty_pos(row,col) || monster_pos(row,col) || exit_pos(row,col))
   end
 
   #updateOldPos(row : int, col : int) : void
@@ -236,29 +232,27 @@ class Labyrinth
 
   #dir2Pos(row : int, col : int, direction : Directions) : int[]
   def dir_2_pos(row,col,direction)
-    new_row = row
-    new_col = col
+    position = [0,0]
 
     case direction
     when Directions::UP
-      new_row -= 1
+      position[@@ROW] = row -1
+      position[@@COL] = col
     when Directions::DOWN
-      new_row += 1
+      position[@@ROW] = row +1
+      position[@@COL] = col
     when Directions::LEFT
-      new_col -= 1
+      position[@@ROW] = row
+      position[@@COL] = col -1
     when Directions::RIGHT
-      new_col += 1
+      position[@@ROW] = row
+      position[@@COL] = col +1
     end
-
-
-    #Creamos un array de int que contenga el valor de nueva columna y el valor de nueva fila
-    new_position = Array.new(new_row,new_col)
-
-    return new_position
+    position
   end
 
   #randomEmptyPos() : int[]
-  def random_empty_pos()
+  def random_empty_pos
     position = [0,0]
     max_intentos = @nrows * @ncols
 
@@ -273,9 +267,8 @@ class Labyrinth
         return position #Devuelve la posición vacía
       end
     end
-
     #Si no se encuentra una posición vacía después de un número máximo de intentos, retorna null
-    return nil
+    nil
   end
 
   #putPlayer2D(oldRow : int, oldCol : int, row : int, col : int, player : Player) : Monster

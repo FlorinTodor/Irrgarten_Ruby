@@ -27,13 +27,12 @@ class Monster
     unless is_dead #if (!is_dead)
       defensive_energy = Dice.intensity(@intelligence)
 
-      if defensive_energy < received_attack {
+      if defensive_energy < received_attack
         got_wounded
         is_dead = dead
-      }
       end
     end
-    return is_dead
+     is_dead
   end
 
   def set_pos(row, col)

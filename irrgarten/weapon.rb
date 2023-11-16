@@ -6,6 +6,8 @@ class Weapon
   # Constructor de la clase
   # param p = power
   # param u = uses
+  @power = 0.0
+  @uses = 0
   def initialize(p,u)
     @power = p
     @uses = u
@@ -14,9 +16,9 @@ class Weapon
   def attack
     if @uses > 0
       @uses -= 1
-      return @power
+      @power
     else
-      return 0
+      0
     end
   end
 

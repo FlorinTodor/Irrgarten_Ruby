@@ -4,7 +4,6 @@ module Irrgarten
 class Dice
   #DECLARACIÓN DE LOS ATRIBUTOS DE CLASE DE DICE
   # LOS ATRIBUTOS EN RUBY SIEMPRE SON PRIVADOS
-  #
   @@MAX_USES = 5  #(número máximo de usos de armas y escudos)
   @@MAX_INTELLIGENCE = 10.0 #(valor máximo para la inteligencia de jugadores y monstruos)
   @@MAX_STRENGHT = 10.0 #(valor máximo para la fuerza de jugadores y monstruos)
