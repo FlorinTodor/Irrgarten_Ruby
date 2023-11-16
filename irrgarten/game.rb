@@ -32,7 +32,7 @@ class Game
     @labyrinth.spread_players(@players)
   end
 
-  def get_max_rounds
+  def self.get_max_rounds
     @@MAX_ROUNDS
   end
 
@@ -221,12 +221,11 @@ class Game
   end
 
   def log_no_monster
-    @log += "El jugador " + @current_player.get_number + " se ha movido a una celda vacía o no le ha sido " +
-      "posible moverse.\n"
+    @log += "El jugador #{@current_player.get_number} se ha movido a una celda vacía o no le ha sido posible moverse.\n"
   end
 
   def log_rounds(rounds, max)
-    @log += "Se han producido " + rounds + " de " + max + " rondas de combate.\n"
+    @log += "Se han producido #{rounds} de #{max} rondas de combate.\n"
   end
 end
 end

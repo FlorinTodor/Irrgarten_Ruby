@@ -8,6 +8,8 @@ require_relative 'weapon'
 module Irrgarten
 class Player
   attr_reader :number
+  attr_reader :col
+  attr_reader :row
   @@MAX_WEAPONS = 5
   @@MAX_SHIELDS = 3
   @@INITIAL_HEALTH = 10
@@ -60,14 +62,15 @@ class Player
 
     if size > 0 && !contained
       firs_element = valid_moves[0]
-      return firs_element
+      firs_element
     else
-      return direction
+      direction
     end
   end
 
   def attack
-    @strength + sum_weapons
+    ataque = @strength + sum_weapons
+    ataque
   end
 
   def defend(received_attack)
@@ -93,8 +96,7 @@ class Player
   end
 
   def to_s
-    "Name: #{@name}, Intelligence: #{@intelligence}, Strength: #{@strength}, Health: #{@health}, Row: #{@row},
-      Col: #{@col}, Weapons: #{@weapons.to_s}, Shields: #{@shields.to_s}\n"
+    "Name: #{@name}, Intelligence: #{@intelligence}, Strength: #{@strength}, Health: #{@health}, Row: #{@row}, Col: #{@col}, Weapons: #{@weapons.to_s}, Shields: #{@shields.to_s}\n"
   end
 
   private
@@ -102,10 +104,10 @@ class Player
   def receive_weapon(weapon)
     for i in (0...@weapons.size)
       wi = @weapons[i]
-      discard = wi.discard
 
-      if discard
-        @weapons.delete_at(wi)
+      # Verificar si 'wi' no es nulo antes de intentar llamar a su método 'discard'
+      if wi && wi.discard
+        @weapons.delete_at(i)
       end
     end
 
@@ -115,13 +117,14 @@ class Player
     end
   end
 
+
   def receive_shield(shield)
     for i in (0...@shields.size)
       si = @shields[i]
-      discard = si.discard
 
-      if discard
-        @shields.delete_at(si)
+      # Verificar si 'si' no es nulo antes de intentar llamar a su método 'discard'
+      if si && si.discard
+        @shields.delete_at(i)
       end
     end
 
@@ -131,6 +134,7 @@ class Player
       @shields.push(shield)
     end
   end
+
 
   def new_weapon
     # Almacenamos el poder y el número de usos del nuevo arma
@@ -162,16 +166,18 @@ class Player
 
   def sum_weapons
     sum = 0.0
-    for weapon in @weapons
-      sum += weapon.attack
+    for i in 0...@weapons.length
+      # Verificar si el arma no es nula antes de acceder a su método de ataque
+      sum += @weapons[i].attack unless @weapons[i].nil?
     end
     sum
   end
 
+
   def sum_shields
     sum = 0.0
-    for shield in @shields
-      sum += shield.protect
+    for i in 0...@shields.length
+      sum += @shields[i].protect unless @shields[i].nil?
     end
     sum
   end

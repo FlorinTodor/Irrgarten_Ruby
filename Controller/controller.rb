@@ -17,7 +17,7 @@ module Control
         direction = @view.next_move 
         end_of_game = @game.next_step(direction)
       end
-      @view.show_game(@game.game_state)
+      @view.show_game(@game.get_game_state)
     end
   end # class   
 end # module        

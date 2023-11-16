@@ -1,9 +1,6 @@
-require_relative '../irrgarten/labyrinth'
-require_relative '../irrgarten/game'
-require_relative '../irrgarten/game_state'
+#encoding:utf-8
+
 require_relative '../irrgarten/directions'
-require_relative '../irrgarten/player'
-require_relative '../irrgarten/monster'
 require 'io/console'
 
 module UI
@@ -31,7 +28,7 @@ module UI
       print "Where? "
       got_input = false
       while (!got_input)
-        c = read_char
+        c = read_char #gets.chomp
         case c
           when "w"
             puts "UP ARROW"
@@ -61,6 +58,7 @@ module UI
     end
 
     def show_game(game_state)
+
       # Mostrar información del laberinto
       puts "Laberinto:"
       puts game_state.labyrinth

@@ -6,7 +6,6 @@ include UI
 include Control
 include Irrgarten
 
-
   class Main
     def self.main
       nplayer = 2
@@ -14,6 +13,7 @@ include Irrgarten
       # Crear instancias del juego, la vista y el controlador
       game = Irrgarten::Game.new(nplayer)
       text_ui = UI::TextUI.new
+      #text_ui.show_game(game.get_game_state)
       controller = Control::Controller.new(game, text_ui)
 
       # Iniciar el juego a través del controlador

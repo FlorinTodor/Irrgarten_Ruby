@@ -25,20 +25,10 @@ class Labyrinth
     @ncols = ncols
     @exitrow = exitrow
     @exitcol = exitcol
-
-
     #En este caso, se pone ' ' porque tiene un miembro char llamado content
     @labyrinth = Array.new(nrows){Array.new(ncols){@@EMPTY_CHAR}}
     @monsters = Array.new(nrows){Array.new(ncols){nil}}
     @players = Array.new(nrows) {Array.new(ncols){nil}}
-
-    for i in (0...nrows) #Parentesis para evitar problemas
-      for j in (0...ncols) #Parentesis para evitar problemas
-        @labyrinth[i][j] = @@EMPTY_CHAR
-        @monsters[i][j] = nil #nil es lo mismo que "null" en Java
-        @players[i][j] = nil #nil es lo mismo que "null" en Java
-      end
-    end
   end
 
   #Metodos getters y setters para nrows, ncols, exitrow, exit
@@ -131,7 +121,7 @@ class Labyrinth
 
     monster = put_player_2d(old_row, old_col, new_pos[@@ROW], new_pos[@@COL], player)
 
-    return monster
+    monster
   end
 
   #addBlock(orientation : Orientation, startRow : int, startCol : int, length : int) : void
@@ -219,10 +209,10 @@ class Labyrinth
   def combat_pos(row,col)
     if pos_ok(row,col)
       #Comprobamos que unicamente se encuentra un monster
-      return (@labyrinth[row][col] == @@COMBAT_CHAR && @players[row][col] != nil && @monsters[row][col] != nil)
+       (@labyrinth[row][col] == @@COMBAT_CHAR && @players[row][col] != nil && @monsters[row][col] != nil)
+    else
+      false
     end
-
-    return false
   end
 
   #canStepOn(row : int, col : int) : boolean
