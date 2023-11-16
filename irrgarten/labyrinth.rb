@@ -96,8 +96,7 @@ class Labyrinth
         if i == @exitrow && j == @exitcol
           laberinto += @@exit_char + " "
         else
-          laberinto += @labyrinth[i][j]
-          laberinto += ' '
+          laberinto += "#{@labyrinth[i][j]} "
         end
       end
       laberinto += "\n"
