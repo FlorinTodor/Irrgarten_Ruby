@@ -135,9 +135,6 @@ class Labyrinth
 
   #addBlock(orientation : Orientation, startRow : int, startCol : int, length : int) : void
   def add_block(orientation, start_row, start_col, length)
-    inc_row = 0
-    inc_col = 0
-
     if orientation == Orientation::VERTICAL
       inc_row = 1
       inc_col = 0
@@ -146,15 +143,15 @@ class Labyrinth
       inc_col = 1
     end
 
-    inc_row = start_row
-    inc_col = start_col
+    row = start_row
+    col = start_col
 
-    while (pos_ok(@@row,@@col) && empty_pos(@@row,@@col) && length > 0)
-      @labyrinth[@@row][@@col] = @@block_char
+    while (pos_ok(row,col) && empty_pos(row,col) && length > 0)
+      @labyrinth[row][col] = @@block_char
 
       length -= 1
-      @@row += inc_row
-      @@col += inc_col
+      row += inc_row
+      col += inc_col
     end
   end
 

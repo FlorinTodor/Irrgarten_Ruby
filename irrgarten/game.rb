@@ -202,35 +202,33 @@ class Game
   end
 
   def log_player_won()
-    log += "El jugador " + @current_player.get_number + " ha ganado el combate.\n"
+    @log += "El jugador " + @current_player.get_number + " ha ganado el combate.\n"
   end
 
   def log_monster_won()
-    log += "El monstruo ha ganado el combate.\n"
+    @log += "El monstruo ha ganado el combate.\n"
   end
 
   def log_resurrected()
-    log += "El jugador " + @current_player.get_number + " ha resucitado.\n"
+    @log += "El jugador " + @current_player.get_number + " ha resucitado.\n"
   end
 
   def log_player_skip_turn()
-    log += "El jugador " + @current_player.get_number + " ha perdido el turno por estar muerto.\n"
+    @log += "El jugador " + @current_player.get_number + " ha perdido el turno por estar muerto.\n"
   end
 
   def log_player_no_orders()
-    log += "El jugador " + @current_player.get_number + " no ha seguido las instrucciones del jugador humano " +
+    @log += "El jugador " + @current_player.get_number + " no ha seguido las instrucciones del jugador humano " +
       "(no fue posible).\n";
   end
 
   def log_no_monster()
-    log += "El jugador " + @current_player.get_number + " se ha movido a una celda vacía o no le ha sido " +
+    @log += "El jugador " + @current_player.get_number + " se ha movido a una celda vacía o no le ha sido " +
       "posible moverse.\n";
   end
 
   def log_rounds(rounds, max)
-    log += "Se han producido " + rounds + " de " + max + " rondas de combate.\n"
+    @log += "Se han producido " + rounds + " de " + max + " rondas de combate.\n"
   end
-
-
 end
 end
