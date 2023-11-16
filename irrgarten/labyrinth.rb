@@ -179,9 +179,10 @@ class Labyrinth
     return output
   end
 
+  private
   #posOK(row : int, col : int) : boolean
   def pos_ok(row,col)
-    return (row >= 0 && row < @nrows && col >= 0 && col < @ncols)
+    row >= 0 && row < @nrows && col >= 0 && col < @ncols
   end
 
   #emptyPos(row : int, col : int) : boolean
