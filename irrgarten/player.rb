@@ -18,7 +18,7 @@ class Player < Labyrinth_character
 
   @@MAX_WEAPONS = 5
   @@MAX_SHIELDS = 3
-  @@INITIAL_HEALTH = 0.0001
+  @@INITIAL_HEALTH = 10
   @@HITS2LOSE = 3
 
   def initialize(number, intelligence, strength)
