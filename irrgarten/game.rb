@@ -7,6 +7,7 @@ require_relative 'orientation'
 require_relative 'directions'
 require_relative 'game_character'
 require_relative 'game_state'
+require_relative 'fuzzy_player'
 module Irrgarten
 class Game
 
@@ -72,7 +73,7 @@ class Game
   end
 
   def get_game_state
-    game = Game_state.new(@labyrinth.to_s, @players, @monsters, @current_player.get_number.to_s, finished, @log)
+    game = Game_state.new(@labyrinth.to_s, @players, @monsters, @current_player.number.to_s, finished, @log)
     return game
   end
 
@@ -139,8 +140,8 @@ class Game
   end
 
   def actual_direction(preferred_direction)
-    current_row = @current_player.get_row
-    current_col = @current_player.get_col
+    current_row = @current_player.row
+    current_col = @current_player.col
 
     valid_moves = Array.new
     valid_moves = @labyrinth.valid_moves(current_row,current_col)
@@ -188,11 +189,21 @@ class Game
     end
   end
 
+  def replace_with_fuzzy_player(new_fuzzy_player)
+    player_index = @current_player_index
+    if player_index != -1
+      @players[player_index] = new_fuzzy_player
+      @current_player = new_fuzzy_player
+    end
+  end
+
   def manage_resurrection
     resurrect = Dice.resurrect_player
 
     if resurrect
       @current_player.resurrect
+      fuzzy_player = Fuzzy_player.new(@current_player) # Copia los valores
+      replace_with_fuzzy_player(fuzzy_player) # Colocamos en current_player el fuzzy_player
       log_resurrected
     else
       log_player_skip_turn
@@ -200,7 +211,7 @@ class Game
   end
 
   def log_player_won
-    @log += "El jugador  #{@current_player.get_number} ha ganado el combate.\n"
+    @log += "El jugador  #{@current_player.number} ha ganado el combate.\n"
   end
 
   def log_monster_won
@@ -208,19 +219,19 @@ class Game
   end
 
   def log_resurrected
-    @log += "El jugador #{@current_player.get_number} ha resucitado.\n"
+    @log += "El jugador #{@current_player.number} ha resucitado, pero se comporta como un FuzzyPlayer.\n"
   end
 
   def log_player_skip_turn
-    @log += "El jugador #{@current_player.get_number} ha perdido el turno por estar muerto.\n"
+    @log += "El jugador #{@current_player.number} ha perdido el turno por estar muerto.\n"
   end
 
   def log_player_no_orders
-    @log += "El jugador #{@current_player.get_number} no ha seguido las instrucciones del jugador humano (no fue posible).\n"
+    @log += "El jugador #{@current_player.number} no ha seguido las instrucciones del jugador humano (no fue posible).\n"
   end
 
   def log_no_monster
-    @log += "El jugador #{@current_player.get_number} se ha movido a una celda vacía o no le ha sido posible moverse.\n"
+    @log += "El jugador #{@current_player.number} se ha movido a una celda vacía o no le ha sido posible moverse.\n"
   end
 
   def log_rounds(rounds, max)

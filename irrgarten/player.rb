@@ -5,56 +5,42 @@ require_relative 'directions'
 require_relative 'dice'
 require_relative 'shield'
 require_relative 'weapon'
+require_relative 'labyrinth_character'
 module Irrgarten
-class Player
+class Player < Labyrinth_character
   attr_reader :number
   attr_reader :col
   attr_reader :row
+  attr_reader :consecutive_hits
+  attr_accessor :weapons
+  attr_accessor :shields
+
+
   @@MAX_WEAPONS = 5
   @@MAX_SHIELDS = 3
-  @@INITIAL_HEALTH = 10
+  @@INITIAL_HEALTH = 0.0001
   @@HITS2LOSE = 3
 
   def initialize(number, intelligence, strength)
+    super("Player ##{number}", intelligence, strength, @@INITIAL_HEALTH,0,0)
     @number = number
-    @name = "Player ##{number}"
-    @intelligence = intelligence
-    @strength = strength
-    @health = @@INITIAL_HEALTH
+    @consecutive_hits = 0
     @weapons = Array.new(@@MAX_WEAPONS)
     @shields = Array.new(@@MAX_SHIELDS)
-    @row = 0
-    @col = 0
-    @consecutive_hits = 0
   end
 
+  def copy_from(other)
+    copy_attributes(other)
+    @weapons = other.weapons.dup
+    @shields = other.shields.dup
+  end
   def resurrect
     @weapons.clear
     @shields.clear
-    @health = @@INITIAL_HEALTH
+    set_health(@@INITIAL_HEALTH)
     @consecutive_hits = 0
   end
 
-  def get_row
-    @row
-  end
-
-  def get_col
-    @col
-  end
-
-  def get_number
-    @number
-  end
-
-  def set_pos(row,col)
-    @row = row
-    @col = col
-  end
-
-  def dead
-    @health <= 0.0
-  end
 
   def move(direction, valid_moves)
     size = valid_moves.length
@@ -77,6 +63,9 @@ class Player
     manage_hit(received_attack)
   end
 
+  def get_numer
+    @number
+  end
   def receive_reward
     w_reward = Dice.weapons_reward
     s_reward = Dice.shields_reward

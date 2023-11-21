@@ -27,8 +27,8 @@ class Labyrinth
     @exitcol = exitcol
     #En este caso, se pone ' ' porque tiene un miembro char llamado content
     @labyrinth = Array.new(nrows){Array.new(ncols){@@EMPTY_CHAR}}
-    @monsters = Array.new(nrows){Array.new(ncols){nil}}
-    @players = Array.new(nrows) {Array.new(ncols){nil}}
+    @monsters = Array.new(nrows){Array.new(ncols){}}
+    @players = Array.new(nrows) {Array.new(ncols){}}
   end
 
   #Metodos getters y setters para nrows, ncols, exitrow, exit
@@ -114,11 +114,11 @@ class Labyrinth
 
   #putPlayer(direction : Directions, player : Player) : Monster
   def put_player(direction, player)
-    old_row = player.get_row
-    old_col = player.get_col
+    old_row = player.row
+    old_col = player.col
 
     new_pos = dir_2_pos(old_row, old_col, direction)
-
+    @players[old_row][old_col] = player
     monster = put_player_2d(old_row, old_col, new_pos[@@ROW], new_pos[@@COL], player)
 
     monster
@@ -291,7 +291,7 @@ class Labyrinth
         @labyrinth[row][col] = @@COMBAT_CHAR
         output = @monsters[row][col]
       else
-        @labyrinth[row][col] = player.get_number
+        @labyrinth[row][col] = player.number
       end
 
       @players[row][col] = player

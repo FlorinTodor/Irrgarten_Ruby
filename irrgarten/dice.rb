@@ -76,7 +76,7 @@ class Dice
     return @@GENERATOR.rand > probabilidad
   end
 
-  def next_step(preference, valid_moves, intelligence)
+  def self.next_step(preference, valid_moves, intelligence)
     if random_intelligence < intelligence
       return preference
     else
