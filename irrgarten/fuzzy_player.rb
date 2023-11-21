@@ -34,7 +34,7 @@ class Fuzzy_player < Player
   end
 
   def to_s
-    "Fuzzy: #{@name}, Intelligence: #{@intelligence}, Strength: #{@strength}, Health: #{@health}, Row: #{@row}, Col: #{@col}, Weapons: #{@weapons.to_s}, Shields: #{@shields.to_s}\n"
+    "Fuzzy: Name: #{@name}, Intelligence: #{@intelligence}, Strength: #{@strength}, Health: #{@health}, Row: #{@row}, Col: #{@col}, Weapons: #{@weapons.to_s}, Shields: #{@shields.to_s}\n"
   end
 
 
