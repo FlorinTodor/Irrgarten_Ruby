@@ -72,7 +72,7 @@ class Game
   end
 
   def get_game_state
-    game = Game_state.new(@labyrinth, @players, @monsters, @current_player.get_number.to_s, finished, @log)
+    game = Game_state.new(@labyrinth.to_s, @players, @monsters, @current_player.get_number.to_s, finished, @log)
     return game
   end
 

@@ -75,5 +75,14 @@ class Dice
     # Si el número aleatorio es menor que la probabilidad, devolver true
     return @@GENERATOR.rand > probabilidad
   end
+
+  def next_step(preference, valid_moves, intelligence)
+    if random_intelligence < intelligence
+      return preference
+    else
+      random_index = random_pos(valid_moves.size)
+      return valid_moves[random_index]
+    end
+  end
 end
 end

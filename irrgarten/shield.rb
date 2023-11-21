@@ -1,28 +1,24 @@
 #encoding:utf-8
 # frozen_string_literal: true
-require_relative 'dice'
+require_relative 'combat_element'
 module Irrgarten
-class Shield
-  def initialize(p,u)
-    @protection = p
-    @uses = u
+  class Shield < Combat_element
+  def initialize(protection,uses)
+    super(protection,uses)
   end
 
   def protect
-    if @uses > 0
-      @uses -= 1
-      return @protection
+    if get_uses > 0
+      set_uses(get_uses - 1)
+      return produce_effect
     else
-      return 0
+      return 0.0
     end
-  end
+    end
 
   def to_s
     "S[Protection: #{@protection}, Uses: #{@uses}]"
   end
 
-  def discard
-    Dice.discard_element(@uses)
-  end
 end
 end

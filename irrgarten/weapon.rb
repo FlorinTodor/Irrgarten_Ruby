@@ -1,33 +1,26 @@
 #encoding:utf-8
 # frozen_string_literal: true
-require_relative 'dice'
+require_relative 'combat_element'
 module Irrgarten
-class Weapon
-  # Constructor de la clase
-  # param p = power
-  # param u = uses
-  @power = 0.0
-  @uses = 0
-  def initialize(p,u)
-    @power = p
-    @uses = u
+  class Weapon < Combat_element
+
+  def initialize(power,uses)
+    super(power,uses)
   end
 
   def attack
-    if @uses > 0
-      @uses -= 1
-      @power
+    if get_uses > 0
+    set_uses(get_uses - 1)
+    return produce_effect
     else
-      0
-    end
+    return 0.0
+  end
   end
 
   def to_s
-    "W[Power: #{@power}, Uses: #{@uses}]"
+    "W[Power: #{@power}, Uses: #{@uses}]\n"
   end
 
-  def discard
-    Dice.discard_element(@uses)
-  end
+
 end
 end
