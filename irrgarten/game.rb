@@ -202,7 +202,7 @@ class Game
       @current_player.resurrect
       fuzzy_player = Fuzzy_player.new(@current_player) # Copia los valores
       replace_with_fuzzy_player(fuzzy_player) # Colocamos en current_player el fuzzy_player
-      fuzzy_player.informacion
+
       log_resurrected
     else
       log_player_skip_turn

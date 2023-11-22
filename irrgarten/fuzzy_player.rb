@@ -8,9 +8,6 @@ class Fuzzy_player < Player
     copy_from(other)
   end
 
-  def informacion
-    puts @name + @number + @intelligence.to_s + @strength.to_s + @health.to_s + @row.to_s  + @col.to_s + @consecutive_hits.to_s
-  end
 
   def move(direction,valid_moves)
     movimientoComoUnPlayer = super(direction,valid_moves);
