@@ -5,18 +5,12 @@ require_relative 'dice'
 
 class Fuzzy_player < Player
   def initialize(other)
-    @name = other.name
-    @intelligence = other.intelligence
-    @strength = other.strength
-    @health = other.health
-    @row = other.row
-    @col = other.col
-    @number = other.number
-    @consecutive_hits = other.consecutive_hits
-    @weapons = other.weapons
-    @shields = other.shields
+    copy_from(other)
   end
 
+  def informacion
+    puts @name + @number + @intelligence.to_s + @strength.to_s + @health.to_s + @row.to_s  + @col.to_s + @consecutive_hits.to_s
+  end
 
   def move(direction,valid_moves)
     movimientoComoUnPlayer = super(direction,valid_moves);
@@ -34,9 +28,8 @@ class Fuzzy_player < Player
   end
 
   def to_s
-    "Fuzzy: Name: #{@name}, Intelligence: #{@intelligence}, Strength: #{@strength}, Health: #{@health}, Row: #{@row}, Col: #{@col}, Weapons: #{@weapons.to_s}, Shields: #{@shields.to_s}\n"
-  end
-
+    "Fuzzy: " + super()
+    end
 
 end
 end

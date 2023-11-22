@@ -31,6 +31,8 @@ class Player < Labyrinth_character
 
   def copy_from(other)
     copy_attributes(other)
+    @number = other.number
+    @consecutive_hits = other.consecutive_hits
     @weapons = other.weapons.dup
     @shields = other.shields.dup
   end

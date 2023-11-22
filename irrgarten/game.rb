@@ -191,10 +191,8 @@ class Game
 
   def replace_with_fuzzy_player(new_fuzzy_player)
     player_index = @current_player_index
-    if player_index != -1
-      @players[player_index] = new_fuzzy_player
-      @current_player = new_fuzzy_player
-    end
+    @players[player_index] = new_fuzzy_player
+    @current_player = new_fuzzy_player
   end
 
   def manage_resurrection
@@ -204,6 +202,7 @@ class Game
       @current_player.resurrect
       fuzzy_player = Fuzzy_player.new(@current_player) # Copia los valores
       replace_with_fuzzy_player(fuzzy_player) # Colocamos en current_player el fuzzy_player
+      fuzzy_player.informacion
       log_resurrected
     else
       log_player_skip_turn
