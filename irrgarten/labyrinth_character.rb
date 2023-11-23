@@ -84,13 +84,7 @@ class Labyrinth_character
     @health -= 1
   end
 
-  def attack
-    raise NotImplementedError, "Las subclases deben implementar el método 'atacar'"
-  end
 
-  def defender(ataque)
-    raise NotImplementedError, "Las subclases deben implementar el método 'defender'"
-  end
 
 
 

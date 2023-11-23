@@ -11,11 +11,12 @@ module Irrgarten
     else
       return 0.0
     end
-    end
-
-  def to_s
-    "S[Protection: #{@protection}, Uses: #{@uses}]"
   end
 
+  def to_s
+    "S[Effect: #{@protection}, Uses: #{@uses}]"
+  end
+
+  public_class_method :new
 end
 end

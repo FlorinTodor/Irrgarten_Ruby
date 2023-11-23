@@ -10,14 +10,14 @@ module Irrgarten
       set_uses(get_uses - 1)
       return produce_effect
     else
-    return 0.0
-  end
+      return 0.0
+    end
   end
 
   def to_s
-    "W[Power: #{@power}, Uses: #{@uses}]\n"
+    "W[Effect: #{@power}, Uses: #{@uses}]\n"
   end
 
-
+  public_class_method :new
 end
 end
