@@ -15,7 +15,6 @@ class Game
   @@MAX_ROUNDS = 10
 
   def initialize(nplayers)
-    @monsters = Array.new
     @players = Array.new
 
     (0...nplayers).each { |i|
@@ -143,7 +142,6 @@ class Game
     current_row = @current_player.row
     current_col = @current_player.col
 
-    valid_moves = Array.new
     valid_moves = @labyrinth.valid_moves(current_row,current_col)
 
     output = @current_player.move(preferred_direction,valid_moves)
@@ -191,10 +189,9 @@ class Game
 
   def replace_with_fuzzy_player(new_fuzzy_player)
     player_index = @current_player_index
-    if player_index != -1
       @players[player_index] = new_fuzzy_player
       @current_player = new_fuzzy_player
-    end
+      @labyrinth.set_player(@current_player.row, @current_player.col, @current_player)
   end
 
   def manage_resurrection

@@ -7,6 +7,7 @@ require_relative 'shield'
 require_relative 'weapon'
 require_relative 'labyrinth_character'
 module Irrgarten
+
 class Player < Labyrinth_character
   attr_reader :number
   attr_reader :col
@@ -14,7 +15,6 @@ class Player < Labyrinth_character
   attr_reader :consecutive_hits
   attr_accessor :weapons
   attr_accessor :shields
-
 
   @@MAX_WEAPONS = 5
   @@MAX_SHIELDS = 3
@@ -29,18 +29,21 @@ class Player < Labyrinth_character
     @shields = Array.new(@@MAX_SHIELDS)
   end
 
-  def copy_from(other)
-    copy_attributes(other)
-    @weapons = other.weapons.dup
-    @shields = other.shields.dup
+  def copy(other)
+    super
+    @number = other.number
+    @consecutive_hits = other.consecutive_hits
+    @weapons = other.weapons
+    @shields = other.shields
+
   end
+
   def resurrect
     @weapons.clear
     @shields.clear
     set_health(@@INITIAL_HEALTH)
     @consecutive_hits = 0
   end
-
 
   def move(direction, valid_moves)
     size = valid_moves.length

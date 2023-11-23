@@ -3,9 +3,6 @@
 require_relative 'combat_element'
 module Irrgarten
   class Shield < Combat_element
-  def initialize(protection,uses)
-    super(protection,uses)
-  end
 
   def protect
     if get_uses > 0

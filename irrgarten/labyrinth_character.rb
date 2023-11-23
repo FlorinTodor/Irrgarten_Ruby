@@ -9,11 +9,11 @@ class Labyrinth_character
     @intelligence = intelligence
     @strength = strength
     @health = health
-    @row =row
-    @col =col
+    @row = row
+    @col = col
   end
 
-  def copy_attributes(other)
+  def copy(other)
     @name = other.name
     @intelligence = other.intelligence
     @strength = other.strength

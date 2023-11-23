@@ -25,8 +25,7 @@ class Combat_element
     Dice.discard_element(@uses)
   end
 
-  def to_s
-    raise NotImplementedError, "Subclasses must implement the 'to_s' method."
-  end
+
+  private_class_method :new
 end
 end

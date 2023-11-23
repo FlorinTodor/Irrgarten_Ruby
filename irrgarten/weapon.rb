@@ -4,14 +4,11 @@ require_relative 'combat_element'
 module Irrgarten
   class Weapon < Combat_element
 
-  def initialize(power,uses)
-    super(power,uses)
-  end
 
   def attack
     if get_uses > 0
-    set_uses(get_uses - 1)
-    return produce_effect
+      set_uses(get_uses - 1)
+      return produce_effect
     else
     return 0.0
   end

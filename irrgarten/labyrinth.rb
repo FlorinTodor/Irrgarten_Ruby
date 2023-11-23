@@ -112,13 +112,16 @@ class Labyrinth
     end
   end
 
+  def set_player(row,col,player)
+    @players[row][col] = player
+  end
+
   #putPlayer(direction : Directions, player : Player) : Monster
   def put_player(direction, player)
     old_row = player.row
     old_col = player.col
 
     new_pos = dir_2_pos(old_row, old_col, direction)
-    @players[old_row][old_col] = player
     monster = put_player_2d(old_row, old_col, new_pos[@@ROW], new_pos[@@COL], player)
 
     monster

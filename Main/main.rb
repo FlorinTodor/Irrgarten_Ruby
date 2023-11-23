@@ -8,7 +8,7 @@ include Irrgarten
 
   class Main
     def self.main
-      nplayer = 2
+      nplayer = 1
 
       # Crear instancias del juego, la vista y el controlador
       game = Irrgarten::Game.new(nplayer)
