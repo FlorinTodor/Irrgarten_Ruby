@@ -5,12 +5,7 @@ module Irrgarten
   class Shield < Combat_element
 
   def protect
-    if get_uses > 0
-      set_uses(get_uses - 1)
-      return produce_effect
-    else
-      return 0.0
-    end
+    produce_effect
   end
 
   def to_s
