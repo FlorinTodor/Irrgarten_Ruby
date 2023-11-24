@@ -15,6 +15,8 @@ class Dice
   @@MAX_SHIELD = 2 #(máxima potencia de los escudos)
   @@GENERATOR = Random.new
 
+  public
+
   def self.random_pos(max)
     return @@GENERATOR.rand(max)
   end
@@ -77,10 +79,11 @@ class Dice
   end
 
   def self.next_step(preference, valid_moves, intelligence)
-    if random_intelligence < intelligence
+    prob = intelligence / @@MAX_INTELLIGENCE
+    if @@GENERATOR.rand < prob
       return preference
     else
-      random_index = random_pos(valid_moves.size)
+      random_index = @@GENERATOR.rand(valid_moves.size)
       return valid_moves[random_index]
     end
   end

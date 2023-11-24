@@ -6,6 +6,7 @@ module Irrgarten
 class Monster < Labyrinth_character
   @@INITIAL_HEALTH = 5
 
+  public
   def initialize(name, intelligence, strength)
     super(name,intelligence,strength,@@INITIAL_HEALTH,0,0)
   end

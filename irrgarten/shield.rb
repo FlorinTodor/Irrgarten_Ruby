@@ -3,6 +3,7 @@
 require_relative 'combat_element'
 module Irrgarten
   class Shield < Combat_element
+    public
 
   def protect
     produce_effect

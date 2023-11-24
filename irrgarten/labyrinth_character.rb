@@ -3,7 +3,9 @@ module Irrgarten
 
 
 class Labyrinth_character
-  attr_accessor :name, :intelligence, :strength, :health, :row, :col
+  attr_accessor :name, :row, :col
+
+  public
   def initialize(name,intelligence,strength,health,row,col)
     @name = name
     @intelligence = intelligence
@@ -25,6 +27,7 @@ class Labyrinth_character
   def dead()
     @health <= 0.0
   end
+
   def get_row
     @row
   end
@@ -39,29 +42,14 @@ class Labyrinth_character
     @name = name
   end
 
-  def intelligence
-    @intelligence
-  end
-
   def set_intelligence(intelligence)
     @intelligence = intelligence
-  end
-
-  def strength
-    @strength
   end
 
   def set_strength(strength)
     @strength = strength
   end
 
-  def health
-    @health
-  end
-
-  def set_health(health)
-    @health = health
-  end
 
   def row
     @row
@@ -76,13 +64,27 @@ class Labyrinth_character
     @col = col
   end
 
-  def to_s
-    raise NotImplementedError, "Las subclases deben implementar el método 'atacar'"
+  protected
+  def set_health(health)
+    @health = health
+  end
+
+  def intelligence
+    @intelligence
+  end
+  def strength
+    @strength
+  end
+
+  def health
+    @health
   end
 
   def got_wounded
     @health -= 1
   end
+
+
 
 
 

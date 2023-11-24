@@ -7,7 +7,6 @@ require_relative 'shield'
 require_relative 'weapon'
 require_relative 'labyrinth_character'
 module Irrgarten
-
 class Player < Labyrinth_character
   attr_reader :number
   attr_reader :col
@@ -16,17 +15,19 @@ class Player < Labyrinth_character
   attr_accessor :weapons
   attr_accessor :shields
 
-  @@MAX_WEAPONS = 5
+  @@MAX_WEAPONS = 2
   @@MAX_SHIELDS = 3
-  @@INITIAL_HEALTH = 10
+  @@INITIAL_HEALTH = 40
   @@HITS2LOSE = 3
+
+  public
 
   def initialize(number, intelligence, strength)
     super("Player ##{number}", intelligence, strength, @@INITIAL_HEALTH,0,0)
     @number = number
     @consecutive_hits = 0
-    @weapons = Array.new(@@MAX_WEAPONS)
-    @shields = Array.new(@@MAX_SHIELDS)
+    @weapons = Array.new(@@MAX_WEAPONS){}
+    @shields = Array.new(@@MAX_SHIELDS){}
   end
 
   def copy(other)
@@ -88,7 +89,22 @@ class Player < Labyrinth_character
   end
 
   def to_s
-    "Name: #{@name}, Intelligence: #{@intelligence}, Strength: #{@strength}, Health: #{@health}, Row: #{@row}, Col: #{@col}, Weapons: #{@weapons.to_s}, Shields: #{@shields.to_s}\n"
+    str = "Name: #{@name}, Intelligence: #{@intelligence}, Strength: #{@strength}, Health: #{@health}, Row: #{@row}, Col: #{@col} \n"
+
+    str += "Weapons: "
+        for weapons in @weapons do
+          unless weapons.nil?
+            str += weapons.to_s
+          end
+        end
+    str += "Shields: "
+    for shields in @shields do
+      unless shields.nil?
+        str += shields.to_s
+      end
+    end
+
+    str
   end
 
   private
@@ -156,27 +172,6 @@ class Player < Labyrinth_character
     new_shield
   end
 
-  def sum_weapons
-    sum = 0.0
-    for i in 0...@weapons.length
-      # Verificar si el arma no es nula antes de acceder a su método de ataque
-      sum += @weapons[i].attack unless @weapons[i].nil?
-    end
-    sum
-  end
-
-
-  def sum_shields
-    sum = 0.0
-    for i in 0...@shields.length
-      sum += @shields[i].protect unless @shields[i].nil?
-    end
-    sum
-  end
-
-  def defensive_energy
-    @intelligence + sum_shields
-  end
 
   def manage_hit(received_attack)
     lose = false
@@ -207,6 +202,29 @@ class Player < Labyrinth_character
 
   def inc_consecutive_hits
     @consecutive_hits += 1
+  end
+
+  protected
+  def sum_weapons
+    sum = 0.0
+    for i in 0...@weapons.length
+      # Verificar si el arma no es nula antes de acceder a su método de ataque
+      sum += @weapons[i].attack unless @weapons[i].nil?
+    end
+    sum
+  end
+
+
+  def sum_shields
+    sum = 0.0
+    for i in 0...@shields.length
+      sum += @shields[i].protect unless @shields[i].nil?
+    end
+    sum
+  end
+
+  def defensive_energy
+    @intelligence + sum_shields
   end
 end
 end

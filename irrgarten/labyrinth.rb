@@ -27,8 +27,8 @@ class Labyrinth
     @exitcol = exitcol
     #En este caso, se pone ' ' porque tiene un miembro char llamado content
     @labyrinth = Array.new(nrows){Array.new(ncols){@@EMPTY_CHAR}}
-    @monsters = Array.new(nrows){Array.new(ncols){}}
-    @players = Array.new(nrows) {Array.new(ncols){}}
+    @monsters = Array.new(nrows){Array.new(ncols){ }}
+    @players = Array.new(nrows) {Array.new(ncols){ }}
   end
 
   #Metodos getters y setters para nrows, ncols, exitrow, exit
@@ -69,7 +69,7 @@ class Labyrinth
     for i in (0...players.length)
       p = players[i]
       pos = random_empty_pos
-      put_player_2d(-1, -1, pos[@@ROW], pos[@@COL], p)
+      put_player_2d(-1, -1, 7, 11, p)
     end
   end
 

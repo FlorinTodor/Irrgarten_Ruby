@@ -3,19 +3,11 @@ require_relative 'dice'
 module Irrgarten
 class Combat_element
   attr_reader :effect, :uses
+  public
 
   def initialize(effect, uses)
     @effect = effect
     @uses = uses
-  end
-
-  def produce_effect
-    if get_uses > 0
-      set_uses(get_uses - 1)
-      return @effect
-    else
-      return 0.0
-    end
   end
 
   def get_uses
@@ -30,7 +22,15 @@ class Combat_element
     Dice.discard_element(@uses)
   end
 
-
+  protected
+  def produce_effect
+    if get_uses > 0
+      set_uses(get_uses - 1)
+      return @effect
+    else
+      return 0.0
+    end
+  end
   private_class_method :new
 end
 end

@@ -3,7 +3,7 @@
 require_relative 'combat_element'
 module Irrgarten
   class Weapon < Combat_element
-
+    public
 
   def attack
     produce_effect

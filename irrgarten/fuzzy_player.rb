@@ -4,6 +4,7 @@ require_relative 'player'
 require_relative 'dice'
 
 class Fuzzy_player < Player
+  public
   def copy(other)
     super
   end
@@ -22,14 +23,15 @@ class Fuzzy_player < Player
     Dice.intensity(@strength + sum_weapons)
   end
 
-  def defensive_energy
-    Dice.intensity(@intelligence + sum_shields)
-  end
 
   def to_s
     "Fuzzy: Name: #{@name}, Intelligence: #{@intelligence}, Strength: #{@strength}, Health: #{@health}, Row: #{@row}, Col: #{@col}, Weapons: #{@weapons}, Shields: #{@shields}\n"
   end
 
+  protected
+  def defensive_energy
+    Dice.intensity(@intelligence + sum_shields)
+  end
 
 end
 end
