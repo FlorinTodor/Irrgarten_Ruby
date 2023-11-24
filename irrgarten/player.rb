@@ -92,25 +92,21 @@ class Player < Labyrinth_character
     str = "Name: #{@name}, Intelligence: #{@intelligence}, Strength: #{@strength}, Health: #{@health}, Row: #{@row}, Col: #{@col} \n"
 
     str += "Weapons: "
-        for weapons in @weapons do
-          unless weapons.nil?
-            str += weapons.to_s
-          end
-        end
-    str += "Shields: "
-    for shields in @shields do
-      unless shields.nil?
-        str += shields.to_s
-      end
-    end
+    weapons_str = @weapons.reject(&:nil?).map(&:to_s).join(", ")
+    str += weapons_str
+
+    str += "\nShields: "
+    shields_str = @shields.reject(&:nil?).map(&:to_s).join(", ")
+    str += shields_str
 
     str
   end
 
+
   private
 
   def receive_weapon(weapon)
-    for i in (0...@weapons.size)
+    (@weapons.size - 1).downto(0) do |i|
       wi = @weapons[i]
 
       # Verificar si 'wi' no es nulo antes de intentar llamar a su método 'discard'
@@ -119,15 +115,11 @@ class Player < Labyrinth_character
       end
     end
 
-    size = @weapons.size
-    if size < @@MAX_WEAPONS
-      @weapons.push(weapon)
-    end
+    # Resto del código...
   end
 
-
   def receive_shield(shield)
-    for i in (0...@shields.size)
+    (@shields.size - 1).downto(0) do |i|
       si = @shields[i]
 
       # Verificar si 'si' no es nulo antes de intentar llamar a su método 'discard'
@@ -135,14 +127,7 @@ class Player < Labyrinth_character
         @shields.delete_at(i)
       end
     end
-
-    size = @shields.size
-
-    if size < @@MAX_SHIELDS
-      @shields.push(shield)
-    end
   end
-
 
   def new_weapon
     # Almacenamos el poder y el número de usos del nuevo arma
