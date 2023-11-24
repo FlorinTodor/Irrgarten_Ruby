@@ -74,12 +74,12 @@ class Player < Labyrinth_character
     w_reward = Dice.weapons_reward
     s_reward = Dice.shields_reward
 
-    for i in (0...w_reward)
+    for i in (1..w_reward)
       wnew = new_weapon
       receive_weapon(wnew)
     end
 
-    for i in (0...s_reward)
+    for i in (1..s_reward)
       snew = new_shield
       receive_shield(snew)
     end
