@@ -74,12 +74,12 @@ class Player < Labyrinth_character
     w_reward = Dice.weapons_reward
     s_reward = Dice.shields_reward
 
-    for i in (1..w_reward)
+    for i in (0...w_reward)
       wnew = new_weapon
       receive_weapon(wnew)
     end
 
-    for i in (1..s_reward)
+    for i in (0...s_reward)
       snew = new_shield
       receive_shield(snew)
     end
@@ -91,43 +91,57 @@ class Player < Labyrinth_character
   def to_s
     str = "Name: #{@name}, Intelligence: #{@intelligence}, Strength: #{@strength}, Health: #{@health}, Row: #{@row}, Col: #{@col} \n"
 
-    str += "Weapons: "
+    # Representación de Weapons
+    str += "Weapons: ["
     weapons_str = @weapons.reject(&:nil?).map(&:to_s).join(", ")
-    str += weapons_str
+    str += "#{weapons_str}]\n"
 
-    str += "\nShields: "
+    # Representación de Shields
+    str += "Shields: ["
     shields_str = @shields.reject(&:nil?).map(&:to_s).join(", ")
-    str += shields_str
+    str += "#{shields_str}]"
 
     str
   end
 
 
+
+
   private
 
   def receive_weapon(weapon)
-    (@weapons.size - 1).downto(0) do |i|
-      wi = @weapons[i]
-
-      # Verificar si 'wi' no es nulo antes de intentar llamar a su método 'discard'
-      if wi && wi.discard
-        @weapons.delete_at(i)
+    @weapons.each_with_index do |wi, i|
+      unless wi.nil?
+        if wi.discard
+          @weapons.delete_at(i)
+        end
       end
     end
 
-    # Resto del código...
+    size = @weapons.size
+
+    if size < @@MAX_WEAPONS
+      @weapons.push(weapon)
+    end
   end
+
 
   def receive_shield(shield)
-    (@shields.size - 1).downto(0) do |i|
-      si = @shields[i]
-
-      # Verificar si 'si' no es nulo antes de intentar llamar a su método 'discard'
-      if si && si.discard
-        @shields.delete_at(i)
+    @shields.each_with_index do |si, i|
+      unless si.nil?
+        if si.discard
+          @shields.delete_at(i)
+        end
       end
     end
+
+    size = @shields.size
+
+    if size < @@MAX_SHIELDS
+      @shields.push(shield)
+    end
   end
+
 
   def new_weapon
     # Almacenamos el poder y el número de usos del nuevo arma
