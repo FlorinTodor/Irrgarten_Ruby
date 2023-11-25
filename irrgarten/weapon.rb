@@ -10,7 +10,7 @@ module Irrgarten
   end
 
   def to_s
-    "W[Effect: #{@power}, Uses: #{@uses}]"
+    "W[Effect: #{@effect}, Uses: #{@uses}]"
   end
 
   public_class_method :new

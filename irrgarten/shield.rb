@@ -10,7 +10,7 @@ module Irrgarten
   end
 
   def to_s
-    "S[Effect: #{@protection}, Uses: #{@uses}]"
+    "S[Effect: #{@effect}, Uses: #{@uses}]"
   end
 
   public_class_method :new
